@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Result Dashboard | CK College of Engineering and Technology</title>
+  <meta name="description" content="View your academic results, grade sheet, and intelligent performance analytics at CK College of Engineering and Technology (CKCET)." />
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <!-- Header -->
+  <header class="landing-header" id="studentHeader">
+    <div class="landing-nav-content">
+      <a href="./index.html" class="brand-logo-lockup" id="brandLogo">
+        <div class="logo-badge">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+            <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+          </svg>
+        </div>
+        <div class="logo-text-wrap">
+          <h1>CKCET</h1>
+          <p>CK College of Engineering and Technology</p>
+        </div>
+      </a>
+
+      <div class="header-actions">
+        <button class="theme-toggle-btn" aria-label="Toggle theme">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+          </svg>
+        </button>
+
+        <button type="button" class="btn btn-secondary btn-sm" id="btnStudentLogout">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>
+          </svg>
+          Logout
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="dashboard-content-area" style="max-width: 1080px; margin: 0 auto;">
+    <!-- Welcome Header Row -->
+    <div class="section-header-row" style="margin-bottom: 2rem;">
+      <div class="section-title-wrap">
+        <h2 style="font-size: 1.85rem;" id="welcomeStudentTitle">Welcome, Praveen 👋</h2>
+        <p>Examination Results &amp; Intelligent Academic Evaluation</p>
+      </div>
+
+      <!-- Action Buttons Bar -->
+      <div class="result-action-bar" style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+        <button type="button" class="btn btn-primary btn-sm" id="btnPrintResult">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/>
+            <rect width="12" height="8" x="6" y="14"/>
+          </svg>
+          Print Result
+        </button>
+
+        <button type="button" class="btn btn-secondary btn-sm" id="btnDownloadResult">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+          Download Result
+        </button>
+
+        <a href="./index.html" class="btn btn-secondary btn-sm" id="btnBackDashboard">
+          Back to Home
+        </a>
+      </div>
+    </div>
+
+    <!-- Student Profile Card -->
+    <div class="portal-card" style="margin-bottom: 2rem; padding: 1.75rem 2rem;">
+      <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1.25rem;">
+        <div style="display: flex; align-items: center; gap: 1.25rem;">
+          <div class="portal-icon-wrapper" style="width: 64px; height: 64px; border-radius: 50%;">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+            </svg>
+          </div>
+          <div>
+            <span class="portal-tag">Official Student Profile</span>
+            <h3 style="font-size: 1.45rem; margin-bottom: 0.2rem;" id="profileName">Praveen</h3>
+            <p style="margin: 0; font-size: 0.85rem; color: var(--text-muted);" id="profileCollege">
+              CK College of Engineering and Technology
+            </p>
+          </div>
+        </div>
+
+        <!-- Quick Summary Metrics -->
+        <div style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
+          <div style="text-align: right;">
+            <div style="font-size: 0.75rem; text-transform: uppercase; color: var(--text-muted); font-weight: 700;">Department</div>
+            <div style="font-size: 1.1rem; font-weight: 800; color: var(--primary-700);" id="profileDept">CSE</div>
+          </div>
+          <div style="text-align: right;">
+            <div style="font-size: 0.75rem; text-transform: uppercase; color: var(--text-muted); font-weight: 700;">Year / Semester</div>
+            <div style="font-size: 1.1rem; font-weight: 800; color: var(--text-main);" id="profileYearSem">2nd Year / III</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==========================================================
+         OFFICIAL RESULT CARD
+         ========================================================== -->
+    <div class="result-card-container">
+      <div class="official-result-sheet" id="printableResultArea">
+        <div class="sheet-watermark">CKCET</div>
+
+        <!-- Sheet Header -->
+        <div class="college-marksheet-header">
+          <div class="college-crest-icon">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+              <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+            </svg>
+          </div>
+          <h2>CK COLLEGE OF ENGINEERING AND TECHNOLOGY</h2>
+          <h3>SEMESTER GRADE SHEET &bull; CKCET</h3>
+          <p style="font-size: 0.825rem; color: var(--text-muted); margin-top: 0.25rem;">
+            Autonomous Examination Cell &bull; Official Academic Transcript
+          </p>
+        </div>
+
+        <!-- Student Information Grid -->
+        <div class="student-info-grid">
+          <div class="info-item">
+            <span class="info-label">Name</span>
+            <span class="info-value" id="cardInfoName">Praveen</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Register Number</span>
+            <span class="info-value" id="cardInfoRegNo">CKCSE001</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Department</span>
+            <span class="info-value" id="cardInfoDept">CSE</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Semester</span>
+            <span class="info-value" id="cardInfoSem">III</span>
+          </div>
+        </div>
+
+        <!-- Result Table -->
+        <div class="table-container" style="border-radius: var(--radius-md); margin-bottom: 1.5rem;">
+          <table class="data-table table-responsive-cards" id="resultTable">
+            <thead>
+              <tr>
+                <th>Subject Code</th>
+                <th>Subject</th>
+                <th>Internal</th>
+                <th>External</th>
+                <th>Total</th>
+                <th>Grade</th>
+                <th>Result</th>
+              </tr>
+            </thead>
+            <tbody id="resultTableBody">
+              <!-- Dynamically populated from student data -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Below Table: Metrics & Large PASS Badge -->
+        <div class="result-summary-footer">
+          <div class="summary-metric-group">
+            <div class="summary-metric">
+              <h4>Total Marks</h4>
+              <div class="metric-val" id="summaryTotalMarks">430 / 500</div>
+            </div>
+            <div class="summary-metric">
+              <h4>Percentage</h4>
+              <div class="metric-val" id="summaryPercentage">86%</div>
+            </div>
+          </div>
+
+          <div style="text-align: right;">
+            <div style="font-size: 0.775rem; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.35rem; font-weight: 700;">Overall Result</div>
+            <span class="overall-status-badge-lg pass" id="summaryOverallBadge">
+              PASS
+            </span>
+          </div>
+        </div>
+
+        <!-- Print Signatures Section (Visible in Print) -->
+        <div class="print-signatures-row">
+          <div class="signature-box">Candidate Signature</div>
+          <div class="signature-box">Controller of Examinations</div>
+          <div class="signature-box">Principal</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==========================================================
+         INTELLIGENT ANALYTICS SECTION
+         (Calculated purely using JavaScript logic, no AI APIs)
+         ========================================================== -->
+    <div style="margin-top: 3.5rem;">
+      <div class="section-title-wrap" style="margin-bottom: 1.5rem;">
+        <h2 style="font-size: 1.45rem;">Intelligent Performance Analytics</h2>
+        <p>Detailed evaluation of your subject mastery and semester progress</p>
+      </div>
+
+      <div class="analytics-grid">
+        <!-- Subject-Wise Performance Chart -->
+        <div class="analytics-card">
+          <h3>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>
+            </svg>
+            Subject-Wise Performance
+          </h3>
+          <div class="performance-bars-list" id="analyticsBarsList">
+            <!-- Dynamically populated bars -->
+          </div>
+        </div>
+
+        <!-- Intelligent Insights & Summary -->
+        <div class="analytics-card">
+          <h3>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+            </svg>
+            Curricular Insights
+          </h3>
+
+          <!-- Strongest Subject Callout -->
+          <div class="insight-callout-card strong" id="strongestSubjectCallout">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+            <div>
+              <p id="strongestSubjectText">Your strongest subject is Java (91%).</p>
+            </div>
+          </div>
+
+          <!-- Weakest Subject Callout -->
+          <div class="insight-callout-card weak" id="weakestSubjectCallout">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+            </svg>
+            <div>
+              <p id="weakestSubjectText">Mathematics needs improvement (74%).</p>
+            </div>
+          </div>
+
+          <!-- Average Mark & Academic Standing -->
+          <div style="background: var(--bg-subtle); border-radius: var(--radius-lg); padding: 1.25rem; margin-top: 1.25rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+              <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">Average Mark</span>
+              <span style="font-size: 1.2rem; font-weight: 800; color: var(--text-main);" id="statAverageMark">86.0 / 100</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">Academic Standing</span>
+              <span class="badge badge-pass" id="standingBadge">First Class with Distinction</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="portal-footer">
+    <div class="footer-inner">
+      <div>CKCET SMART RESULT PORTAL &bull; Student Records &copy; 2026</div>
+      <div>Designed for fast and transparent result delivery.</div>
+    </div>
+  </footer>
+
+  <script src="./data.js"></script>
+  <script src="./script.js"></script>
+  <script>
+    /**
+     * Student Dashboard Controller
+     * 
+     * Production deployment must use a secure backend,
+     * database, hashed passwords, authentication and
+     * role-based authorization.
+     */
+    document.addEventListener('DOMContentLoaded', () => {
+      // Get authenticated student register number
+      let regNo = localStorage.getItem(STORAGE_KEYS.STUDENT_AUTH);
+      if (!regNo) {
+        // Fallback to default demo student Praveen if accessed directly
+        regNo = 'CKCSE001';
+      }
+
+      const students = getStoredStudents();
+      const student = students.find(s => s.registerNo.toUpperCase() === regNo.toUpperCase()) || students[0];
+
+      if (!student) {
+        showToast('✕ Student record not found', 'error');
+        setTimeout(() => {
+          window.location.href = './student-login.html';
+        }, 1200);
+        return;
+      }
+
+      // Populate Header & Profile
+      document.getElementById('welcomeStudentTitle').textContent = `Welcome, ${student.name} 👋`;
+      document.getElementById('profileName').textContent = student.name;
+      document.getElementById('profileDept').textContent = student.department;
+      document.getElementById('profileYearSem').textContent = `${student.year} / Semester ${student.semester}`;
+
+      // Populate Official Card Info
+      document.getElementById('cardInfoName').textContent = student.name;
+      document.getElementById('cardInfoRegNo').textContent = student.registerNo;
+      document.getElementById('cardInfoDept').textContent = student.department;
+      document.getElementById('cardInfoSem').textContent = student.semester;
+
+      // Calculate Metrics
+      const metrics = computeStudentMetrics(student);
+
+      // Populate Result Table
+      const tbody = document.getElementById('resultTableBody');
+      tbody.innerHTML = '';
+
+      metrics.subjectResults.forEach(sub => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td data-label="Subject Code"><strong>${sub.code}</strong></td>
+          <td data-label="Subject">${sub.name}</td>
+          <td data-label="Internal">${sub.internal}</td>
+          <td data-label="External">${sub.external}</td>
+          <td data-label="Total" style="font-weight: 700;">${sub.total}</td>
+          <td data-label="Grade"><span class="badge-grade">${sub.grade}</span></td>
+          <td data-label="Result"><span class="badge badge-${sub.result.toLowerCase()}">${sub.result}</span></td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      // Populate Summary
+      document.getElementById('summaryTotalMarks').textContent = `${metrics.totalMarks} / ${metrics.maxMarks}`;
+      document.getElementById('summaryPercentage').textContent = `${metrics.percentage}%`;
+
+      const overallBadge = document.getElementById('summaryOverallBadge');
+      overallBadge.textContent = metrics.overallResult;
+      overallBadge.className = `overall-status-badge-lg ${metrics.overallResult.toLowerCase()}`;
+
+      // Standing
+      const standing = document.getElementById('standingBadge');
+      if (metrics.percentage >= 80 && metrics.isPass) {
+        standing.textContent = 'First Class with Distinction';
+        standing.className = 'badge badge-pass';
+      } else if (metrics.percentage >= 60 && metrics.isPass) {
+        standing.textContent = 'First Class';
+        standing.className = 'badge badge-pass';
+      } else if (metrics.isPass) {
+        standing.textContent = 'Second Class';
+        standing.className = 'badge badge-pass';
+      } else {
+        standing.textContent = 'Arrear / Reappearance Required';
+        standing.className = 'badge badge-fail';
+      }
+
+      // Intelligent Analytics (Calculated using pure JS)
+      const analytics = computeStudentAnalytics(student);
+
+      document.getElementById('statAverageMark').textContent = `${analytics.averageMark} / 100`;
+      document.getElementById('strongestSubjectText').textContent = analytics.insightStrong;
+      document.getElementById('weakestSubjectText').textContent = analytics.insightWeak;
+
+      // Render performance bar chart
+      const barsList = document.getElementById('analyticsBarsList');
+      barsList.innerHTML = '';
+
+      analytics.subjectPerformance.forEach(sub => {
+        const wrap = document.createElement('div');
+        wrap.className = 'bar-item-wrap';
+        const barClass = sub.score >= 85 ? 'high' : sub.score >= 60 ? 'medium' : sub.score >= 50 ? 'low' : 'danger';
+
+        wrap.innerHTML = `
+          <div class="bar-labels">
+            <span>${sub.name}</span>
+            <span><strong>${sub.score}%</strong> (Grade ${sub.grade})</span>
+          </div>
+          <div class="bar-track">
+            <div class="bar-fill ${barClass}" style="width: ${sub.score}%"></div>
+          </div>
+        `;
+        barsList.appendChild(wrap);
+      });
+
+      // Print Handler
+      document.getElementById('btnPrintResult').addEventListener('click', () => {
+        window.print();
+      });
+
+      // Download Handler
+      document.getElementById('btnDownloadResult').addEventListener('click', () => {
+        showToast('Preparing printable result sheet for download...', 'info');
+        setTimeout(() => {
+          window.print();
+        }, 300);
+      });
+
+      // Logout Handler
+      document.getElementById('btnStudentLogout').addEventListener('click', () => {
+        confirmDialog('Student Logout', 'Are you sure you want to exit the student portal?', () => {
+          localStorage.removeItem(STORAGE_KEYS.STUDENT_AUTH);
+          showToast('Logged out successfully', 'info');
+          setTimeout(() => {
+            window.location.href = './student-login.html';
+          }, 400);
+        });
+      });
+    });
+  </script>
+</body>
+</html>

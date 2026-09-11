@@ -1,0 +1,1635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Faculty Dashboard | CK College of Engineering and Technology</title>
+  <meta name="description" content="Manage students, enter marks, calculate grades, and generate examination results for CK College of Engineering and Technology (CKCET)." />
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <div class="dashboard-container">
+    <!-- Sidebar -->
+    <aside class="dashboard-sidebar" id="facultySidebar">
+      <div class="sidebar-header">
+        <a href="./faculty-dashboard.html" class="brand-logo-lockup" id="sidebarBrandLogo">
+          <div class="logo-badge">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+              <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+              <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+            </svg>
+          </div>
+          <div class="logo-text-wrap">
+            <h1>CKCET</h1>
+            <p>CK College of Engg &amp; Tech</p>
+          </div>
+        </a>
+      </div>
+
+      <nav class="sidebar-nav" id="sidebarNav">
+        <button type="button" class="nav-item-btn active" data-view="viewDashboard" id="navItemDashboard">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/>
+            <rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/>
+          </svg>
+          <span>Dashboard</span>
+        </button>
+
+        <button type="button" class="nav-item-btn" data-view="viewStudents" id="navItemStudents">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+          <span>Students</span>
+        </button>
+
+        <button type="button" class="nav-item-btn" data-view="viewEnterMarks" id="navItemEnterMarks">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+          </svg>
+          <span>Enter Marks</span>
+        </button>
+
+        <button type="button" class="nav-item-btn" data-view="viewResults" id="navItemResults">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/>
+            <line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/>
+          </svg>
+          <span>Results</span>
+        </button>
+
+        <button type="button" class="nav-item-btn" data-view="viewAnalytics" id="navItemAnalytics">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>
+          </svg>
+          <span>Analytics</span>
+        </button>
+
+        <button type="button" class="nav-item-btn" data-view="viewSettings" id="navItemSettings">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+          </svg>
+          <span>Settings</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button type="button" class="btn btn-secondary btn-block" id="btnFacultyLogout">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>
+          </svg>
+          <span>Logout</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="dashboard-main">
+      <!-- Top Navigation -->
+      <header class="dashboard-topbar">
+        <div class="topbar-left">
+          <button type="button" class="sidebar-toggle-btn" id="sidebarToggleBtn" aria-label="Toggle Navigation">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/>
+            </svg>
+          </button>
+          
+          <div style="font-weight: 700; font-size: 1.1rem; color: var(--text-main);">
+            Welcome, <span id="facultyWelcomeName" style="color: var(--primary-600);">Faculty</span>
+          </div>
+
+          <!-- Topbar Student Search -->
+          <div class="topbar-search-box">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+            <input type="text" id="topbarStudentSearch" placeholder="Search Student..." />
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <!-- Notification Icon Button -->
+          <button type="button" class="action-icon-btn" id="btnNotification" title="Notifications" style="position: relative;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>
+            </svg>
+            <span style="position: absolute; top: 4px; right: 4px; width: 8px; height: 8px; background: var(--danger-500); border-radius: 50%;"></span>
+          </button>
+
+          <!-- Theme Toggle -->
+          <button class="theme-toggle-btn" aria-label="Toggle theme">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+            </svg>
+          </button>
+
+          <!-- Profile Badge -->
+          <div class="user-profile-badge" id="topbarUserProfile">
+            <div class="avatar-circle" id="userAvatar">FA</div>
+            <div class="user-info-text">
+              <div class="user-name">Faculty Office</div>
+              <div class="user-role">Controller of Exams</div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Dashboard Views Container -->
+      <main class="dashboard-content-area">
+        <!-- ==========================================================
+             VIEW 1: DASHBOARD OVERVIEW
+             ========================================================== -->
+        <section class="view-section active" id="viewDashboard">
+          <div class="section-header-row">
+            <div class="section-title-wrap">
+              <h2>Academic Performance Dashboard</h2>
+              <p>Real-time results overview across departments for the current semester</p>
+            </div>
+            <div>
+              <button type="button" class="btn btn-primary btn-sm" id="btnQuickAddStudent">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                + Add Student
+              </button>
+            </div>
+          </div>
+
+          <!-- SMART STATISTICS: 4 ANIMATED CARDS -->
+          <div class="stats-grid" id="statsGrid">
+            <!-- Card 1: Total Students -->
+            <div class="stat-card blue">
+              <div class="stat-info">
+                <span class="stat-label">Total Students</span>
+                <span class="stat-value" id="statTotalStudents">0</span>
+              </div>
+              <div class="stat-icon-wrapper">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              </div>
+            </div>
+
+            <!-- Card 2: Passed -->
+            <div class="stat-card green">
+              <div class="stat-info">
+                <span class="stat-label">Passed</span>
+                <span class="stat-value" id="statPassed">0</span>
+              </div>
+              <div class="stat-icon-wrapper">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
+            </div>
+
+            <!-- Card 3: Failed -->
+            <div class="stat-card red">
+              <div class="stat-info">
+                <span class="stat-label">Failed</span>
+                <span class="stat-value" id="statFailed">0</span>
+              </div>
+              <div class="stat-icon-wrapper">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+              </div>
+            </div>
+
+            <!-- Card 4: Average Percentage -->
+            <div class="stat-card amber">
+              <div class="stat-info">
+                <span class="stat-label">Average Percentage</span>
+                <span class="stat-value" id="statAverage">0.0%</span>
+              </div>
+              <div class="stat-icon-wrapper">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Actions & Top Performers Row -->
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; margin-top: 1rem;">
+            <!-- Department Pass Distribution -->
+            <div class="analytics-card">
+              <h3>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+                Department Pass Rate Summary
+              </h3>
+              <div id="deptSummaryList" class="performance-bars-list">
+                <!-- Dynamically populated -->
+              </div>
+            </div>
+
+            <!-- Recent Highlights & Shortcuts -->
+            <div class="analytics-card">
+              <h3>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                System Intelligence Quick Actions
+              </h3>
+              <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                <button type="button" class="btn btn-secondary" style="justify-content: flex-start;" id="btnGoToEnterMarks">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                  Enter Student Marks (Step 1 & 2)
+                </button>
+                <button type="button" class="btn btn-secondary" style="justify-content: flex-start;" id="btnGoToStudents">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                  Search & Filter All Student Records
+                </button>
+                <button type="button" class="btn btn-secondary" style="justify-content: flex-start;" id="btnGoToResults">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/></svg>
+                  View / Print Batch Marksheets
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==========================================================
+             VIEW 2: STUDENT MANAGEMENT
+             ========================================================== -->
+        <section class="view-section" id="viewStudents">
+          <div class="section-header-row">
+            <div class="section-title-wrap">
+              <h2>Student Management</h2>
+              <p>Search, filter, edit, or delete enrolled students and view their academic status</p>
+            </div>
+            <div>
+              <button type="button" class="btn btn-primary" id="btnAddStudentMain">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                + Add Student
+              </button>
+            </div>
+          </div>
+
+          <!-- Search & Filter Controls Toolbar -->
+          <div class="toolbar-card">
+            <div class="filter-group">
+              <!-- Search bar: "Search by Name or Register Number" -->
+              <div class="search-input-field">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                <input type="text" id="studentTableSearch" placeholder="Search by Name or Register Number" />
+              </div>
+
+              <!-- Department Filter -->
+              <select class="select-filter" id="filterDept">
+                <option value="">All Departments</option>
+                <option value="CSE">CSE</option>
+                <option value="ECE">ECE</option>
+                <option value="MECH">MECH</option>
+                <option value="IT">IT</option>
+                <option value="EEE">EEE</option>
+                <option value="AI&DS">AI&DS</option>
+              </select>
+
+              <!-- Year Filter -->
+              <select class="select-filter" id="filterYear">
+                <option value="">All Years</option>
+                <option value="1st Year">1st Year</option>
+                <option value="2nd Year">2nd Year</option>
+                <option value="3rd Year">3rd Year</option>
+                <option value="4th Year">4th Year</option>
+              </select>
+
+              <!-- Semester Filter -->
+              <select class="select-filter" id="filterSemester">
+                <option value="">All Semesters</option>
+                <option value="I">Semester I</option>
+                <option value="II">Semester II</option>
+                <option value="III">Semester III</option>
+                <option value="IV">Semester IV</option>
+                <option value="V">Semester V</option>
+                <option value="VI">Semester VI</option>
+                <option value="VII">Semester VII</option>
+                <option value="VIII">Semester VIII</option>
+              </select>
+
+              <!-- Result Status Filter -->
+              <select class="select-filter" id="filterStatus">
+                <option value="">All Results</option>
+                <option value="PASS">PASS</option>
+                <option value="FAIL">FAIL</option>
+              </select>
+            </div>
+
+            <div>
+              <button type="button" class="btn btn-secondary btn-sm" id="btnResetFilters">Reset Filters</button>
+            </div>
+          </div>
+
+          <!-- Student Table -->
+          <div class="table-container">
+            <table class="data-table table-responsive-cards" id="studentTable">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Register No</th>
+                  <th>Department</th>
+                  <th>Year</th>
+                  <th>Semester</th>
+                  <th>Percentage</th>
+                  <th>Status</th>
+                  <th style="text-align: right;">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="studentTableBody">
+                <!-- Dynamically generated rows -->
+              </tbody>
+            </table>
+
+            <!-- Empty State -->
+            <div id="studentTableEmptyState" class="empty-state-box" style="display: none;">
+              <div class="empty-state-icon">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              </div>
+              <h3>No students found</h3>
+              <p>Try adjusting your search keywords or clearing active filters to see student records.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==========================================================
+             VIEW 3: ENTER MARKS
+             ========================================================== -->
+        <section class="view-section" id="viewEnterMarks">
+          <div class="section-header-row">
+            <div class="section-title-wrap">
+              <h2>Intelligent Marks Entry</h2>
+              <p>Step-by-step mark calculation engine with instant grade validation</p>
+            </div>
+          </div>
+
+          <div class="marks-entry-container">
+            <!-- Step Indicator -->
+            <div class="steps-indicator">
+              <div class="step-badge active" id="stepBadge1">
+                <span>1</span> Select Student
+              </div>
+              <div class="step-divider"></div>
+              <div class="step-badge" id="stepBadge2">
+                <span>2</span> Enter Subject Marks
+              </div>
+            </div>
+
+            <!-- Step 1: Select Student Card -->
+            <div class="enter-marks-card" id="cardStep1">
+              <h3 style="font-size: 1.25rem; font-weight: 800; margin-bottom: 0.5rem; color: var(--text-main);">
+                Step 1: Choose a Student
+              </h3>
+              <p style="color: var(--text-muted); font-size: 0.875rem; margin-bottom: 1.5rem;">
+                Search or pick a student by Name or Register Number to assign or update marks.
+              </p>
+
+              <div class="form-group">
+                <label class="form-label" for="marksStudentPicker">Search Student</label>
+                <div class="input-with-icon">
+                  <span class="input-icon-prefix">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                  </span>
+                  <input type="text" id="marksStudentSearch" class="form-input" placeholder="Type name (e.g. Praveen) or Register No (e.g. CKCSE001)..." />
+                </div>
+              </div>
+
+              <!-- Quick Click Student Suggestions -->
+              <div style="margin-top: 1rem;">
+                <label class="form-label">Or Select From Enrolled Students:</label>
+                <div id="quickStudentPillsList" style="display: flex; flex-wrap: wrap; gap: 0.6rem; max-height: 200px; overflow-y: auto; padding: 0.5rem 0;">
+                  <!-- Dynamically populated pills -->
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 2: Enter Marks Card -->
+            <div class="enter-marks-card" id="cardStep2" style="display: none;">
+              <div class="selected-student-pill">
+                <div>
+                  <div style="font-size: 0.75rem; text-transform: uppercase; font-weight: 700; color: var(--primary-700);">Selected Student</div>
+                  <div style="font-size: 1.15rem; font-weight: 800; color: var(--text-main);" id="activeStudentDisplayName">Praveen</div>
+                  <div style="font-size: 0.85rem; color: var(--text-muted);" id="activeStudentMeta">CKCSE001 &bull; CSE &bull; 2nd Year &bull; Semester III</div>
+                </div>
+                <button type="button" class="btn btn-secondary btn-sm" id="btnChangeStudent">Change</button>
+              </div>
+
+              <h3 style="font-size: 1.25rem; font-weight: 800; margin-bottom: 0.35rem; color: var(--text-main);">
+                Step 2: Select Subject & Input Marks
+              </h3>
+              <p style="color: var(--text-muted); font-size: 0.875rem; margin-bottom: 1.5rem;">
+                Enter internal and external marks. System will instantly calculate Total, Grade, and Result.
+              </p>
+
+              <form id="enterMarksForm">
+                <!-- Subject Selection -->
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin-bottom: 1.25rem;">
+                  <div class="form-group">
+                    <label class="form-label" for="subjectCodeInput">Subject Code</label>
+                    <input type="text" id="subjectCodeInput" class="form-input" placeholder="e.g. CS2501" required />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="subjectNameInput">Subject Name</label>
+                    <input type="text" id="subjectNameInput" class="form-input" placeholder="e.g. Data Structures" required />
+                  </div>
+                </div>
+
+                <!-- Existing curriculum shortcut dropdown -->
+                <div class="form-group">
+                  <label class="form-label" for="curriculumQuickSelect">Or pick standard department subject</label>
+                  <select class="form-select" id="curriculumQuickSelect">
+                    <option value="">-- Choose from standard curriculum --</option>
+                  </select>
+                </div>
+
+                <!-- Mark Input Fields -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 1.25rem;">
+                  <div class="form-group">
+                    <label class="form-label" for="internalMarkInput">
+                      Internal Mark <span style="color: var(--text-muted); font-weight: 400;">(Max 25)</span>
+                    </label>
+                    <input 
+                      type="number" 
+                      id="internalMarkInput" 
+                      class="form-input" 
+                      placeholder="e.g. 22" 
+                      min="0" 
+                      max="25" 
+                      required 
+                    />
+                    <small id="internalError" style="display: none; color: var(--danger-600); font-size: 0.775rem;">Internal marks must be between 0 and 25</small>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-label" for="externalMarkInput">
+                      External Mark <span style="color: var(--text-muted); font-weight: 400;">(Max 75)</span>
+                    </label>
+                    <input 
+                      type="number" 
+                      id="externalMarkInput" 
+                      class="form-input" 
+                      placeholder="e.g. 64" 
+                      min="0" 
+                      max="75" 
+                      required 
+                    />
+                    <small id="externalError" style="display: none; color: var(--danger-600); font-size: 0.775rem;">External marks must be between 0 and 75</small>
+                  </div>
+                </div>
+
+                <!-- Automatic Live Calculation Display -->
+                <div class="calculation-live-preview">
+                  <div class="calc-stat-item">
+                    <h4>Total Mark (100)</h4>
+                    <div class="calc-stat-num" id="calcPreviewTotal">0</div>
+                  </div>
+                  <div class="calc-stat-item">
+                    <h4>Grade</h4>
+                    <div class="calc-stat-num" id="calcPreviewGrade">-</div>
+                  </div>
+                  <div class="calc-stat-item">
+                    <h4>Result</h4>
+                    <div class="calc-stat-num" id="calcPreviewResult">
+                      <span class="badge" style="font-size: 1.1rem;">-</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Save Marks Button -->
+                <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+                  <button type="button" class="btn btn-secondary" id="btnCancelMarks">Cancel</button>
+                  <button type="submit" class="btn btn-primary" id="btnSaveMarks">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                    Save Subject Marks
+                  </button>
+                </div>
+              </form>
+
+              <!-- Current Subjects List of Selected Student -->
+              <div style="margin-top: 2.5rem; border-top: 1px solid var(--border-subtle); padding-top: 1.5rem;">
+                <h4 style="font-size: 1.05rem; font-weight: 800; margin-bottom: 1rem; color: var(--text-main);">
+                  Existing Subjects for this Student
+                </h4>
+                <div class="table-container">
+                  <table class="data-table">
+                    <thead>
+                      <tr>
+                        <th>Code</th>
+                        <th>Subject Name</th>
+                        <th>Internal (25)</th>
+                        <th>External (75)</th>
+                        <th>Total</th>
+                        <th>Grade</th>
+                        <th>Result</th>
+                      </tr>
+                    </thead>
+                    <tbody id="studentExistingSubjectsBody">
+                      <!-- Populated dynamically -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==========================================================
+             VIEW 4: RESULTS (BATCH VIEW & PRINT)
+             ========================================================== -->
+        <section class="view-section" id="viewResults">
+          <div class="section-header-row">
+            <div class="section-title-wrap">
+              <h2>Official Examination Results</h2>
+              <p>View consolidated student results, generate individual grade cards, and export printouts</p>
+            </div>
+          </div>
+
+          <div class="table-container">
+            <table class="data-table table-responsive-cards" id="resultsTable">
+              <thead>
+                <tr>
+                  <th>Reg No</th>
+                  <th>Student Name</th>
+                  <th>Dept</th>
+                  <th>Semester</th>
+                  <th>Subjects</th>
+                  <th>Total Score</th>
+                  <th>Percentage</th>
+                  <th>Overall Result</th>
+                  <th style="text-align: right;">Action</th>
+                </tr>
+              </thead>
+              <tbody id="resultsTableBody">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ==========================================================
+             VIEW 5: ANALYTICS
+             ========================================================== -->
+        <section class="view-section" id="viewAnalytics">
+          <div class="section-header-row">
+            <div class="section-title-wrap">
+              <h2>Institutional Performance Analytics</h2>
+              <p>Computed using JavaScript analytics engine to evaluate batch strength and pass trends</p>
+            </div>
+          </div>
+
+          <div class="analytics-grid">
+            <!-- Grade Distribution -->
+            <div class="analytics-card">
+              <h3>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 10 10"/></svg>
+                Grade Distribution (All Subjects)
+              </h3>
+              <div id="gradeDistributionBars" class="performance-bars-list">
+                <!-- Dynamically populated -->
+              </div>
+            </div>
+
+            <!-- Pass / Fail Ratio -->
+            <div class="analytics-card">
+              <h3>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                Overall Academic Standing
+              </h3>
+              <div id="overallAnalyticsInsightBox">
+                <!-- Dynamically populated -->
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==========================================================
+             VIEW 6: SETTINGS & DATA
+             ========================================================== -->
+        <section class="view-section" id="viewSettings">
+          <div class="section-header-row">
+            <div class="section-title-wrap">
+              <h2>Portal Settings & Database Configuration</h2>
+              <p>Grading criteria, demo data management, and storage controls</p>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem;">
+            <!-- Grading System Reference -->
+            <div class="analytics-card">
+              <h3>Grading System Reference (Anna Univ / CKCET Standard)</h3>
+              <div class="table-container" style="box-shadow: none;">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>Marks Range</th>
+                      <th>Grade</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>90 – 100</td><td><span class="badge-grade">O</span></td><td><span class="badge badge-pass">PASS</span></td></tr>
+                    <tr><td>80 – 89</td><td><span class="badge-grade">A+</span></td><td><span class="badge badge-pass">PASS</span></td></tr>
+                    <tr><td>70 – 79</td><td><span class="badge-grade">A</span></td><td><span class="badge badge-pass">PASS</span></td></tr>
+                    <tr><td>60 – 69</td><td><span class="badge-grade">B+</span></td><td><span class="badge badge-pass">PASS</span></td></tr>
+                    <tr><td>50 – 59</td><td><span class="badge-grade">B</span></td><td><span class="badge badge-pass">PASS</span></td></tr>
+                    <tr><td>40 – 49</td><td><span class="badge-grade">C</span></td><td><span class="badge badge-fail">FAIL / RE-EXAM</span></td></tr>
+                    <tr><td>Below 40</td><td><span class="badge-grade">F</span></td><td><span class="badge badge-fail">FAIL</span></td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- LocalStorage & Demo Data Control -->
+            <div class="analytics-card">
+              <h3>Data Persistence Control</h3>
+              <p style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 1.25rem;">
+                All edits (adding students, modifying marks, deleting records) are safely persisted in your browser's LocalStorage. You can reset anytime back to default seed data.
+              </p>
+
+              <div style="display: flex; flex-direction: column; gap: 0.85rem;">
+                <button type="button" class="btn btn-secondary" id="btnExportJSON">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                  Export Students JSON
+                </button>
+
+                <button type="button" class="btn btn-danger" id="btnResetData">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+                  Reset to Demo Seed Data
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- ==========================================================
+       MODAL 1: ADD STUDENT MODAL
+       ========================================================== -->
+  <div class="modal-backdrop" id="modalAddStudent">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3>Add New Student</h3>
+        <button type="button" class="modal-close-btn" data-close="modalAddStudent">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <form id="formAddStudent">
+        <div class="modal-body">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-group">
+              <label class="form-label" for="newStudentName">Full Name</label>
+              <input type="text" id="newStudentName" class="form-input" placeholder="e.g. Praveen" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="newStudentRegNo">Register Number</label>
+              <input type="text" id="newStudentRegNo" class="form-input" placeholder="e.g. CKCSE005" style="text-transform: uppercase;" required />
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-group">
+              <label class="form-label" for="newStudentDob">Date of Birth</label>
+              <input type="date" id="newStudentDob" class="form-input" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="newStudentDept">Department</label>
+              <select id="newStudentDept" class="form-select" required>
+                <option value="CSE">CSE - Computer Science</option>
+                <option value="ECE">ECE - Electronics & Comm</option>
+                <option value="MECH">MECH - Mechanical</option>
+                <option value="IT">IT - Information Tech</option>
+                <option value="EEE">EEE - Electrical & Electronics</option>
+                <option value="AI&DS">AI&DS - Artificial Intelligence</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-group">
+              <label class="form-label" for="newStudentYear">Year</label>
+              <select id="newStudentYear" class="form-select" required>
+                <option value="1st Year">1st Year</option>
+                <option value="2nd Year" selected>2nd Year</option>
+                <option value="3rd Year">3rd Year</option>
+                <option value="4th Year">4th Year</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="newStudentSem">Semester</label>
+              <select id="newStudentSem" class="form-select" required>
+                <option value="I">Semester I</option>
+                <option value="II">Semester II</option>
+                <option value="III" selected>Semester III</option>
+                <option value="IV">Semester IV</option>
+                <option value="V">Semester V</option>
+                <option value="VI">Semester VI</option>
+                <option value="VII">Semester VII</option>
+                <option value="VIII">Semester VIII</option>
+              </select>
+            </div>
+          </div>
+
+          <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.5rem;">
+            Initial standard semester subjects will be automatically linked to this student for immediate mark entry.
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-close="modalAddStudent">Cancel</button>
+          <button type="submit" class="btn btn-primary">+ Create Student</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==========================================================
+       MODAL 2: VIEW STUDENT FULL MARKSHEET MODAL
+       ========================================================== -->
+  <div class="modal-backdrop" id="modalViewMarksheet">
+    <div class="modal-dialog" style="max-width: 800px;">
+      <div class="modal-header">
+        <h3>Student Marksheet Preview</h3>
+        <button type="button" class="modal-close-btn" data-close="modalViewMarksheet">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="modal-body" id="modalMarksheetContent">
+        <!-- Dynamically rendered printable sheet -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-close="modalViewMarksheet">Close</button>
+        <button type="button" class="btn btn-primary" id="btnModalPrintResult">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/></svg>
+          Print Marksheet
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="./data.js"></script>
+  <script src="./script.js"></script>
+  <script>
+    /**
+     * Faculty Dashboard Controller
+     * 
+     * Production deployment must use a secure backend,
+     * database, hashed passwords, authentication and
+     * role-based authorization.
+     */
+    document.addEventListener('DOMContentLoaded', () => {
+      // Check faculty session
+      const facultyAuth = localStorage.getItem(STORAGE_KEYS.FACULTY_AUTH);
+      if (facultyAuth) {
+        try {
+          const parsed = JSON.parse(facultyAuth);
+          if (parsed.name) {
+            document.getElementById('facultyWelcomeName').textContent = parsed.name;
+          }
+        } catch(e) {}
+      }
+
+      // Logout handler
+      document.getElementById('btnFacultyLogout').addEventListener('click', () => {
+        confirmDialog('Faculty Logout', 'Are you sure you want to end your faculty session?', () => {
+          localStorage.removeItem(STORAGE_KEYS.FACULTY_AUTH);
+          showToast('Logged out successfully', 'info');
+          setTimeout(() => {
+            window.location.href = './faculty-login.html';
+          }, 400);
+        });
+      });
+
+      // View Navigation Switching
+      const navButtons = document.querySelectorAll('.nav-item-btn[data-view]');
+      const viewSections = document.querySelectorAll('.view-section');
+
+      function switchView(viewId) {
+        navButtons.forEach(btn => {
+          if (btn.getAttribute('data-view') === viewId) {
+            btn.classList.add('active');
+          } else {
+            btn.classList.remove('active');
+          }
+        });
+
+        viewSections.forEach(sec => {
+          if (sec.id === viewId) {
+            sec.classList.add('active');
+          } else {
+            sec.classList.remove('active');
+          }
+        });
+
+        // Close mobile sidebar if open
+        document.getElementById('facultySidebar').classList.remove('sidebar-open');
+
+        // Refresh views
+        if (viewId === 'viewDashboard') renderDashboardOverview();
+        if (viewId === 'viewStudents') renderStudentsTable();
+        if (viewId === 'viewResults') renderResultsTable();
+        if (viewId === 'viewAnalytics') renderAnalyticsView();
+      }
+
+      navButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const view = btn.getAttribute('data-view');
+          switchView(view);
+        });
+      });
+
+      // Shortcut buttons
+      document.getElementById('btnGoToEnterMarks')?.addEventListener('click', () => switchView('viewEnterMarks'));
+      document.getElementById('btnGoToStudents')?.addEventListener('click', () => switchView('viewStudents'));
+      document.getElementById('btnGoToResults')?.addEventListener('click', () => switchView('viewResults'));
+      document.getElementById('btnQuickAddStudent')?.addEventListener('click', () => openModal('modalAddStudent'));
+      document.getElementById('btnAddStudentMain')?.addEventListener('click', () => openModal('modalAddStudent'));
+
+      // Sidebar Mobile Toggle
+      document.getElementById('sidebarToggleBtn').addEventListener('click', () => {
+        document.getElementById('facultySidebar').classList.toggle('sidebar-open');
+      });
+
+      // Modal Close Handlers
+      document.querySelectorAll('[data-close]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const modalId = btn.getAttribute('data-close');
+          closeModal(modalId);
+        });
+      });
+
+      // ==========================================================
+      // DASHBOARD OVERVIEW & ANIMATED COUNTERS
+      // ==========================================================
+      function renderDashboardOverview() {
+        const students = getStoredStudents();
+        let total = students.length;
+        let passed = 0;
+        let failed = 0;
+        let sumPct = 0;
+
+        students.forEach(s => {
+          const m = computeStudentMetrics(s);
+          if (m.isPass) passed++;
+          else failed++;
+          sumPct += m.percentage;
+        });
+
+        const avgPct = total > 0 ? (sumPct / total) : 0;
+
+        // Animate counter values
+        animateCounter(document.getElementById('statTotalStudents'), total);
+        animateCounter(document.getElementById('statPassed'), passed);
+        animateCounter(document.getElementById('statFailed'), failed);
+        animateCounter(document.getElementById('statAverage'), avgPct, true);
+
+        // Department breakdown
+        const deptMap = {};
+        students.forEach(s => {
+          const dept = s.department || 'Other';
+          if (!deptMap[dept]) deptMap[dept] = { total: 0, passed: 0 };
+          deptMap[dept].total++;
+          const m = computeStudentMetrics(s);
+          if (m.isPass) deptMap[dept].passed++;
+        });
+
+        const deptContainer = document.getElementById('deptSummaryList');
+        if (deptContainer) {
+          deptContainer.innerHTML = '';
+          Object.keys(deptMap).forEach(dept => {
+            const data = deptMap[dept];
+            const passPct = data.total > 0 ? Math.round((data.passed / data.total) * 100) : 0;
+            const barClass = passPct >= 80 ? 'high' : passPct >= 60 ? 'medium' : 'danger';
+
+            const wrap = document.createElement('div');
+            wrap.className = 'bar-item-wrap';
+            wrap.innerHTML = `
+              <div class="bar-labels">
+                <span>${dept} (${data.passed}/${data.total} Passed)</span>
+                <span>${passPct}%</span>
+              </div>
+              <div class="bar-track">
+                <div class="bar-fill ${barClass}" style="width: ${passPct}%"></div>
+              </div>
+            `;
+            deptContainer.appendChild(wrap);
+          });
+        }
+      }
+
+      // ==========================================================
+      // STUDENT MANAGEMENT TABLE & FILTERS
+      // ==========================================================
+      const tableSearch = document.getElementById('studentTableSearch');
+      const filterDept = document.getElementById('filterDept');
+      const filterYear = document.getElementById('filterYear');
+      const filterSem = document.getElementById('filterSemester');
+      const filterStatus = document.getElementById('filterStatus');
+      const resetFiltersBtn = document.getElementById('btnResetFilters');
+
+      function filterStudents() {
+        const query = (tableSearch.value || '').trim().toLowerCase();
+        const dept = filterDept.value;
+        const year = filterYear.value;
+        const sem = filterSem.value;
+        const status = filterStatus.value;
+
+        const students = getStoredStudents();
+
+        return students.filter(s => {
+          // Instant search check: Name or Reg No (e.g. CKCSE001 or Praveen)
+          const nameMatch = s.name && s.name.toLowerCase().includes(query);
+          const regMatch = s.registerNo && s.registerNo.toLowerCase().includes(query);
+          if (query && !nameMatch && !regMatch) return false;
+
+          if (dept && s.department !== dept) return false;
+          if (year && s.year !== year) return false;
+          if (sem && s.semester !== sem) return false;
+
+          if (status) {
+            const m = computeStudentMetrics(s);
+            if (m.overallResult !== status) return false;
+          }
+
+          return true;
+        });
+      }
+
+      function renderStudentsTable() {
+        const tbody = document.getElementById('studentTableBody');
+        const emptyState = document.getElementById('studentTableEmptyState');
+        const filtered = filterStudents();
+
+        tbody.innerHTML = '';
+
+        if (filtered.length === 0) {
+          emptyState.style.display = 'flex';
+          return;
+        } else {
+          emptyState.style.display = 'none';
+        }
+
+        filtered.forEach(student => {
+          const metrics = computeStudentMetrics(student);
+          const tr = document.createElement('tr');
+
+          tr.innerHTML = `
+            <td data-label="Name" style="font-weight: 700;">
+              ${student.name}
+            </td>
+            <td data-label="Register No">
+              <span class="badge" style="background: var(--bg-subtle); color: var(--primary-700);">${student.registerNo}</span>
+            </td>
+            <td data-label="Department">${student.department}</td>
+            <td data-label="Year">${student.year}</td>
+            <td data-label="Semester">${student.semester}</td>
+            <td data-label="Percentage" style="font-weight: 700;">${metrics.percentage}%</td>
+            <td data-label="Status">
+              <span class="badge badge-${metrics.overallResult.toLowerCase()}">${metrics.overallResult}</span>
+            </td>
+            <td data-label="Actions" style="text-align: right;">
+              <div class="table-actions" style="justify-content: flex-end;">
+                <button type="button" class="action-icon-btn btn-view" title="View Marksheet" data-view-reg="${student.registerNo}">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+                <button type="button" class="action-icon-btn btn-edit" title="Enter / Edit Marks" data-edit-reg="${student.registerNo}">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                </button>
+                <button type="button" class="action-icon-btn btn-delete" title="Delete Student" data-del-reg="${student.registerNo}">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                </button>
+              </div>
+            </td>
+          `;
+
+          tbody.appendChild(tr);
+        });
+
+        // Bind Action Buttons
+        tbody.querySelectorAll('[data-view-reg]').forEach(b => {
+          b.addEventListener('click', () => {
+            const reg = b.getAttribute('data-view-reg');
+            viewStudentMarksheetModal(reg);
+          });
+        });
+
+        tbody.querySelectorAll('[data-edit-reg]').forEach(b => {
+          b.addEventListener('click', () => {
+            const reg = b.getAttribute('data-edit-reg');
+            openMarksEntryForStudent(reg);
+          });
+        });
+
+        tbody.querySelectorAll('[data-del-reg]').forEach(b => {
+          b.addEventListener('click', () => {
+            const reg = b.getAttribute('data-del-reg');
+            confirmDeleteStudent(reg);
+          });
+        });
+      }
+
+      [tableSearch, filterDept, filterYear, filterSem, filterStatus].forEach(el => {
+        el.addEventListener('input', renderStudentsTable);
+        el.addEventListener('change', renderStudentsTable);
+      });
+
+      resetFiltersBtn.addEventListener('click', () => {
+        tableSearch.value = '';
+        filterDept.value = '';
+        filterYear.value = '';
+        filterSem.value = '';
+        filterStatus.value = '';
+        renderStudentsTable();
+      });
+
+      // Topbar Quick Search
+      const topbarSearch = document.getElementById('topbarStudentSearch');
+      topbarSearch.addEventListener('input', () => {
+        tableSearch.value = topbarSearch.value;
+        switchView('viewStudents');
+        renderStudentsTable();
+      });
+
+      // ==========================================================
+      // ADD STUDENT MODAL CONTROLLER
+      // ==========================================================
+      const formAddStudent = document.getElementById('formAddStudent');
+      formAddStudent.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const name = document.getElementById('newStudentName').value.trim();
+        const regNo = document.getElementById('newStudentRegNo').value.trim().toUpperCase();
+        const dob = document.getElementById('newStudentDob').value;
+        const dept = document.getElementById('newStudentDept').value;
+        const year = document.getElementById('newStudentYear').value;
+        const sem = document.getElementById('newStudentSem').value;
+
+        const students = getStoredStudents();
+
+        // Check duplicate
+        if (students.some(s => s.registerNo.toUpperCase() === regNo)) {
+          showToast('✕ Register Number already exists!', 'error');
+          return;
+        }
+
+        // Get default subjects for this dept and semester
+        let initialSubjects = [];
+        if (INITIAL_DATA.curriculum[dept] && INITIAL_DATA.curriculum[dept][sem]) {
+          initialSubjects = INITIAL_DATA.curriculum[dept][sem].map(sub => ({
+            code: sub.code,
+            name: sub.name,
+            internal: 0,
+            external: 0,
+            maxInternal: 25,
+            maxExternal: 75
+          }));
+        } else {
+          initialSubjects = [
+            { code: `${dept}01`, name: "Core Discipline I", internal: 0, external: 0, maxInternal: 25, maxExternal: 75 },
+            { code: `${dept}02`, name: "Core Discipline II", internal: 0, external: 0, maxInternal: 25, maxExternal: 75 },
+            { code: `MA01`, name: "Engineering Mathematics", internal: 0, external: 0, maxInternal: 25, maxExternal: 75 }
+          ];
+        }
+
+        const newStudent = {
+          name,
+          registerNo: regNo,
+          dob,
+          department: dept,
+          year,
+          semester: sem,
+          subjects: initialSubjects
+        };
+
+        students.push(newStudent);
+        saveStoredStudents(students);
+
+        closeModal('modalAddStudent');
+        formAddStudent.reset();
+        showToast('✓ Student added successfully', 'success');
+
+        renderStudentsTable();
+        renderDashboardOverview();
+      });
+
+      // Delete Student
+      function confirmDeleteStudent(regNo) {
+        confirmDialog(
+          'Delete Student Record',
+          `Are you sure you want to delete student ${regNo}? All related marks and examination records will be removed.`,
+          () => {
+            let students = getStoredStudents();
+            const originalLength = students.length;
+            students = students.filter(s => s.registerNo.toUpperCase() !== regNo.toUpperCase());
+
+            if (students.length < originalLength) {
+              saveStoredStudents(students);
+              showToast('✓ Student deleted successfully', 'success');
+              renderStudentsTable();
+              renderDashboardOverview();
+            } else {
+              showToast('✕ Student not found', 'error');
+            }
+          }
+        );
+      }
+
+      // ==========================================================
+      // ENTER MARKS CONTROLLER (STEP 1 & STEP 2)
+      // ==========================================================
+      let activeStudent = null;
+      const cardStep1 = document.getElementById('cardStep1');
+      const cardStep2 = document.getElementById('cardStep2');
+      const stepBadge1 = document.getElementById('stepBadge1');
+      const stepBadge2 = document.getElementById('stepBadge2');
+      const marksStudentSearch = document.getElementById('marksStudentSearch');
+      const pillsContainer = document.getElementById('quickStudentPillsList');
+
+      const internalInput = document.getElementById('internalMarkInput');
+      const externalInput = document.getElementById('externalMarkInput');
+      const subjectCodeInput = document.getElementById('subjectCodeInput');
+      const subjectNameInput = document.getElementById('subjectNameInput');
+      const curriculumSelect = document.getElementById('curriculumQuickSelect');
+
+      const calcTotalEl = document.getElementById('calcPreviewTotal');
+      const calcGradeEl = document.getElementById('calcPreviewGrade');
+      const calcResultEl = document.getElementById('calcPreviewResult');
+
+      function refreshStep1Pills() {
+        const query = (marksStudentSearch.value || '').trim().toLowerCase();
+        const students = getStoredStudents();
+        pillsContainer.innerHTML = '';
+
+        const matching = students.filter(s => {
+          return !query || s.name.toLowerCase().includes(query) || s.registerNo.toLowerCase().includes(query);
+        });
+
+        if (matching.length === 0) {
+          pillsContainer.innerHTML = '<span style="font-size: 0.85rem; color: var(--text-muted);">No matching students found</span>';
+          return;
+        }
+
+        matching.forEach(s => {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'btn btn-secondary btn-sm';
+          btn.innerHTML = `<strong>${s.registerNo}</strong> - ${s.name} (${s.department})`;
+          btn.onclick = () => openMarksEntryForStudent(s.registerNo);
+          pillsContainer.appendChild(btn);
+        });
+      }
+
+      marksStudentSearch.addEventListener('input', refreshStep1Pills);
+
+      function openMarksEntryForStudent(regNo) {
+        const students = getStoredStudents();
+        const found = students.find(s => s.registerNo.toUpperCase() === regNo.toUpperCase());
+
+        if (!found) {
+          showToast('✕ Student not found', 'error');
+          return;
+        }
+
+        activeStudent = found;
+
+        // Switch to Enter Marks view
+        switchView('viewEnterMarks');
+
+        // Toggle cards
+        cardStep1.style.display = 'none';
+        cardStep2.style.display = 'block';
+        stepBadge1.classList.remove('active');
+        stepBadge2.classList.add('active');
+
+        // Populate student pill
+        document.getElementById('activeStudentDisplayName').textContent = activeStudent.name;
+        document.getElementById('activeStudentMeta').textContent = 
+          `${activeStudent.registerNo} • ${activeStudent.department} • ${activeStudent.year} • Semester ${activeStudent.semester}`;
+
+        // Populate curriculum select options
+        curriculumSelect.innerHTML = '<option value="">-- Choose from standard curriculum --</option>';
+        const dept = activeStudent.department;
+        const sem = activeStudent.semester;
+        if (INITIAL_DATA.curriculum[dept] && INITIAL_DATA.curriculum[dept][sem]) {
+          INITIAL_DATA.curriculum[dept][sem].forEach(sub => {
+            const opt = document.createElement('option');
+            opt.value = sub.code;
+            opt.textContent = `${sub.code} - ${sub.name}`;
+            opt.dataset.name = sub.name;
+            curriculumSelect.appendChild(opt);
+          });
+        }
+
+        // Reset inputs
+        subjectCodeInput.value = '';
+        subjectNameInput.value = '';
+        internalInput.value = '';
+        externalInput.value = '';
+        updateLiveCalc();
+
+        renderStudentExistingSubjects(activeStudent);
+      }
+
+      document.getElementById('btnChangeStudent').addEventListener('click', () => {
+        cardStep1.style.display = 'block';
+        cardStep2.style.display = 'none';
+        stepBadge1.classList.add('active');
+        stepBadge2.classList.remove('active');
+        refreshStep1Pills();
+      });
+
+      document.getElementById('btnCancelMarks').addEventListener('click', () => {
+        document.getElementById('btnChangeStudent').click();
+      });
+
+      // Curriculum dropdown quick fill
+      curriculumSelect.addEventListener('change', () => {
+        const selected = curriculumSelect.options[curriculumSelect.selectedIndex];
+        if (selected && selected.value) {
+          subjectCodeInput.value = selected.value;
+          subjectNameInput.value = selected.dataset.name || '';
+
+          // If student already has marks for this subject, prefill them
+          const existing = (activeStudent.subjects || []).find(s => s.code === selected.value);
+          if (existing) {
+            internalInput.value = existing.internal;
+            externalInput.value = existing.external;
+          } else {
+            internalInput.value = '';
+            externalInput.value = '';
+          }
+          updateLiveCalc();
+        }
+      });
+
+      // Real-time calculation on typing marks
+      function updateLiveCalc() {
+        const intVal = parseFloat(internalInput.value) || 0;
+        const extVal = parseFloat(externalInput.value) || 0;
+
+        // Immediate validation warnings
+        const intErr = document.getElementById('internalError');
+        const extErr = document.getElementById('externalError');
+
+        if (intVal > 25 || intVal < 0) {
+          intErr.style.display = 'block';
+        } else {
+          intErr.style.display = 'none';
+        }
+
+        if (extVal > 75 || extVal < 0) {
+          extErr.style.display = 'block';
+        } else {
+          extErr.style.display = 'none';
+        }
+
+        const calc = calculateSubjectGrade(intVal, extVal);
+
+        calcTotalEl.textContent = calc.total;
+        calcGradeEl.textContent = calc.grade;
+        calcResultEl.innerHTML = `
+          <span class="badge badge-${calc.result.toLowerCase()}" style="font-size: 1rem;">
+            ${calc.result}
+          </span>
+        `;
+      }
+
+      internalInput.addEventListener('input', updateLiveCalc);
+      externalInput.addEventListener('input', updateLiveCalc);
+
+      // Save Marks Form Submit
+      document.getElementById('enterMarksForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        if (!activeStudent) {
+          showToast('✕ Please select a student first', 'error');
+          return;
+        }
+
+        const code = subjectCodeInput.value.trim().toUpperCase();
+        const name = subjectNameInput.value.trim();
+        const internal = parseFloat(internalInput.value);
+        const external = parseFloat(externalInput.value);
+
+        if (isNaN(internal) || internal < 0 || internal > 25) {
+          showToast('✕ Invalid marks: Internal mark must be 0 to 25', 'error');
+          return;
+        }
+
+        if (isNaN(external) || external < 0 || external > 75) {
+          showToast('✕ Invalid marks: External mark must be 0 to 75', 'error');
+          return;
+        }
+
+        if (!code || !name) {
+          showToast('✕ Please provide subject code and name', 'error');
+          return;
+        }
+
+        // Update student record
+        const students = getStoredStudents();
+        const idx = students.findIndex(s => s.registerNo.toUpperCase() === activeStudent.registerNo.toUpperCase());
+
+        if (idx === -1) {
+          showToast('✕ Student record not found', 'error');
+          return;
+        }
+
+        if (!Array.isArray(students[idx].subjects)) {
+          students[idx].subjects = [];
+        }
+
+        const subIdx = students[idx].subjects.findIndex(s => s.code.toUpperCase() === code);
+        const subjectObj = {
+          code,
+          name,
+          internal,
+          external,
+          maxInternal: 25,
+          maxExternal: 75
+        };
+
+        if (subIdx >= 0) {
+          students[idx].subjects[subIdx] = subjectObj;
+        } else {
+          students[idx].subjects.push(subjectObj);
+        }
+
+        saveStoredStudents(students);
+        activeStudent = students[idx];
+
+        showToast('✓ Marks added successfully', 'success');
+        showToast('✓ Result generated successfully', 'info');
+
+        renderStudentExistingSubjects(activeStudent);
+        renderDashboardOverview();
+
+        // Clear subject form for next subject
+        subjectCodeInput.value = '';
+        subjectNameInput.value = '';
+        internalInput.value = '';
+        externalInput.value = '';
+        curriculumSelect.value = '';
+        updateLiveCalc();
+      });
+
+      function renderStudentExistingSubjects(student) {
+        const tbody = document.getElementById('studentExistingSubjectsBody');
+        tbody.innerHTML = '';
+
+        if (!student.subjects || student.subjects.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; color: var(--text-muted);">No subjects recorded yet</td></tr>';
+          return;
+        }
+
+        student.subjects.forEach(sub => {
+          const calc = calculateSubjectGrade(sub.internal, sub.external);
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td><strong>${sub.code}</strong></td>
+            <td>${sub.name}</td>
+            <td>${sub.internal}</td>
+            <td>${sub.external}</td>
+            <td style="font-weight: 700;">${calc.total}</td>
+            <td><span class="badge-grade">${calc.grade}</span></td>
+            <td><span class="badge badge-${calc.result.toLowerCase()}">${calc.result}</span></td>
+          `;
+          tbody.appendChild(tr);
+        });
+      }
+
+      // ==========================================================
+      // RESULTS VIEW (BATCH PREVIEW & PRINT)
+      // ==========================================================
+      function renderResultsTable() {
+        const tbody = document.getElementById('resultsTableBody');
+        const students = getStoredStudents();
+        tbody.innerHTML = '';
+
+        students.forEach(s => {
+          const m = computeStudentMetrics(s);
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td data-label="Reg No"><strong>${s.registerNo}</strong></td>
+            <td data-label="Student Name">${s.name}</td>
+            <td data-label="Dept">${s.department}</td>
+            <td data-label="Semester">${s.semester}</td>
+            <td data-label="Subjects">${s.subjects ? s.subjects.length : 0}</td>
+            <td data-label="Total Score" style="font-weight: 700;">${m.totalMarks} / ${m.maxMarks}</td>
+            <td data-label="Percentage">${m.percentage}%</td>
+            <td data-label="Overall Result">
+              <span class="badge badge-${m.overallResult.toLowerCase()}">${m.overallResult}</span>
+            </td>
+            <td data-label="Action" style="text-align: right;">
+              <button type="button" class="btn btn-secondary btn-sm" onclick="viewStudentMarksheetModal('${s.registerNo}')">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                View / Print
+              </button>
+            </td>
+          `;
+          tbody.appendChild(tr);
+        });
+      }
+
+      // ==========================================================
+      // ANALYTICS VIEW
+      // ==========================================================
+      function renderAnalyticsView() {
+        const students = getStoredStudents();
+        const gradeCounts = { 'O': 0, 'A+': 0, 'A': 0, 'B+': 0, 'B': 0, 'C': 0, 'F': 0 };
+        let totalSubjectsCount = 0;
+
+        students.forEach(s => {
+          (s.subjects || []).forEach(sub => {
+            const c = calculateSubjectGrade(sub.internal, sub.external);
+            if (gradeCounts[c.grade] !== undefined) {
+              gradeCounts[c.grade]++;
+            }
+            totalSubjectsCount++;
+          });
+        });
+
+        const barsContainer = document.getElementById('gradeDistributionBars');
+        barsContainer.innerHTML = '';
+
+        Object.keys(gradeCounts).forEach(grade => {
+          const count = gradeCounts[grade];
+          const pct = totalSubjectsCount > 0 ? Math.round((count / totalSubjectsCount) * 100) : 0;
+          const barClass = grade === 'O' || grade === 'A+' ? 'high' : grade === 'F' ? 'danger' : 'medium';
+
+          const wrap = document.createElement('div');
+          wrap.className = 'bar-item-wrap';
+          wrap.innerHTML = `
+            <div class="bar-labels">
+              <span>Grade ${grade} (${count} entries)</span>
+              <span>${pct}%</span>
+            </div>
+            <div class="bar-track">
+              <div class="bar-fill ${barClass}" style="width: ${pct}%"></div>
+            </div>
+          `;
+          barsContainer.appendChild(wrap);
+        });
+
+        const overallBox = document.getElementById('overallAnalyticsInsightBox');
+        let passCount = 0;
+        students.forEach(s => {
+          if (computeStudentMetrics(s).isPass) passCount++;
+        });
+        const passPercent = students.length > 0 ? Math.round((passCount / students.length) * 100) : 0;
+
+        overallBox.innerHTML = `
+          <div class="insight-callout-card strong" style="margin-bottom: 1rem;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            <div>
+              <p>Overall Institutional Pass Rate: <strong>${passPercent}%</strong></p>
+              <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.2rem;">
+                ${passCount} of ${students.length} students cleared all registered semester papers.
+              </div>
+            </div>
+          </div>
+          <div class="insight-callout-card ${passPercent >= 80 ? 'strong' : 'weak'}">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            <div>
+              <p>Arrear Mitigation Status</p>
+              <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.2rem;">
+                ${students.length - passCount} students require re-examination or coaching in failing subjects.
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      // ==========================================================
+      // VIEW STUDENT MARKSHEET MODAL PREVIEW & PRINT
+      // ==========================================================
+      window.viewStudentMarksheetModal = function(regNo) {
+        const students = getStoredStudents();
+        const student = students.find(s => s.registerNo.toUpperCase() === regNo.toUpperCase());
+
+        if (!student) {
+          showToast('✕ Student not found', 'error');
+          return;
+        }
+
+        const metrics = computeStudentMetrics(student);
+        const container = document.getElementById('modalMarksheetContent');
+
+        container.innerHTML = `
+          <div class="official-result-sheet" style="padding: 1.5rem;">
+            <div class="college-marksheet-header">
+              <div class="college-crest-icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+                  <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+                </svg>
+              </div>
+              <h2>CK COLLEGE OF ENGINEERING AND TECHNOLOGY</h2>
+              <h3>OFFICIAL GRADE REPORT &bull; CKCET</h3>
+            </div>
+
+            <div class="student-info-grid">
+              <div class="info-item">
+                <span class="info-label">Student Name</span>
+                <span class="info-value">${student.name}</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Register Number</span>
+                <span class="info-value">${student.registerNo}</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Department</span>
+                <span class="info-value">${student.department}</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Semester / Year</span>
+                <span class="info-value">${student.semester} / ${student.year}</span>
+              </div>
+            </div>
+
+            <div class="table-container">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Subject Code</th>
+                    <th>Subject Title</th>
+                    <th>Internal (25)</th>
+                    <th>External (75)</th>
+                    <th>Total (100)</th>
+                    <th>Grade</th>
+                    <th>Result</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${metrics.subjectResults.map(sub => `
+                    <tr>
+                      <td><strong>${sub.code}</strong></td>
+                      <td>${sub.name}</td>
+                      <td>${sub.internal}</td>
+                      <td>${sub.external}</td>
+                      <td style="font-weight: 700;">${sub.total}</td>
+                      <td><span class="badge-grade">${sub.grade}</span></td>
+                      <td><span class="badge badge-${sub.result.toLowerCase()}">${sub.result}</span></td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>
+            </div>
+
+            <div class="result-summary-footer">
+              <div class="summary-metric-group">
+                <div class="summary-metric">
+                  <h4>Total Marks</h4>
+                  <div class="metric-val">${metrics.totalMarks} / ${metrics.maxMarks}</div>
+                </div>
+                <div class="summary-metric">
+                  <h4>Percentage</h4>
+                  <div class="metric-val">${metrics.percentage}%</div>
+                </div>
+              </div>
+
+              <div>
+                <span class="overall-status-badge-lg ${metrics.overallResult.toLowerCase()}">
+                  ${metrics.overallResult}
+                </span>
+              </div>
+            </div>
+
+            <div class="print-signatures-row" style="margin-top: 3rem; display: flex; justify-content: space-between;">
+              <div class="signature-box">Verified by Faculty</div>
+              <div class="signature-box">Controller of Examinations</div>
+              <div class="signature-box">Principal</div>
+            </div>
+          </div>
+        `;
+
+        openModal('modalViewMarksheet');
+      };
+
+      document.getElementById('btnModalPrintResult').addEventListener('click', () => {
+        window.print();
+      });
+
+      // Settings Data Handlers
+      document.getElementById('btnExportJSON').addEventListener('click', () => {
+        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(getStoredStudents(), null, 2));
+        const downloadAnchor = document.createElement('a');
+        downloadAnchor.setAttribute("href", dataStr);
+        downloadAnchor.setAttribute("download", "ckcet_students_export.json");
+        document.body.appendChild(downloadAnchor);
+        downloadAnchor.click();
+        downloadAnchor.remove();
+        showToast('✓ Student records exported as JSON', 'success');
+      });
+
+      document.getElementById('btnResetData').addEventListener('click', () => {
+        confirmDialog(
+          'Reset to Demo Data',
+          'This will reset all student marks and records to the original demo seed dataset. Proceed?',
+          () => {
+            resetDataToDefault();
+            showToast('✓ Demo data restored successfully', 'success');
+            renderDashboardOverview();
+            renderStudentsTable();
+            refreshStep1Pills();
+          }
+        );
+      });
+
+      // Initial page render
+      renderDashboardOverview();
+      refreshStep1Pills();
+    });
+  </script>
+</body>
+</html>

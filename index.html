@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CK College of Engineering and Technology - Smart Result Portal</title>
+  <meta name="description" content="Official Smart Result Portal for CK College of Engineering and Technology (CKCET) with faculty marks entry, student results, and academic performance analytics." />
+  <meta property="og:title" content="CK College of Engineering and Technology - Smart Result Portal" />
+  <meta property="og:description" content="Official Smart Result Portal for CK College of Engineering and Technology (CKCET) with faculty marks entry, student results, and academic performance analytics." />
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body class="landing-body">
+  <!-- Header / Navigation -->
+  <header class="landing-header" id="mainHeader">
+    <div class="landing-nav-content">
+      <a href="./index.html" class="brand-logo-lockup" id="brandLogo">
+        <div class="logo-badge">
+          <!-- Graduation Cap Icon -->
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+            <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+          </svg>
+        </div>
+        <div class="logo-text-wrap">
+          <h1>CKCET</h1>
+          <p>CK College of Engineering and Technology</p>
+        </div>
+      </a>
+
+      <div class="header-actions">
+        <button class="theme-toggle-btn" id="themeToggleBtn" aria-label="Toggle theme">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <main>
+    <section class="hero-section" id="heroSection">
+      <div class="hero-pill-badge" id="heroBadge">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/>
+        </svg>
+        CK College of Engineering and Technology
+      </div>
+
+      <h1 class="hero-title" id="heroHeading">
+        Your Academic Results,<br />
+        <span class="highlight">Smarter & Simpler.</span>
+      </h1>
+
+      <p class="hero-subtitle" id="heroSubtitle">
+        Secure result management for faculty and students of CK College of Engineering and Technology (CKCET). Instant grade calculations, comprehensive performance insights, and tamper-proof printable marksheet certificates.
+      </p>
+
+      <!-- Two Large Interactive Portal Cards -->
+      <div class="portal-cards-grid" id="portalCardsContainer">
+        <!-- Card 1: Faculty Portal -->
+        <div class="portal-card" id="cardFacultyPortal">
+          <div>
+            <div class="portal-card-header">
+              <div class="portal-icon-wrapper">
+                <!-- Teacher / Shield SVG Icon -->
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                  <circle cx="9" cy="7" r="4"/>
+                  <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                </svg>
+              </div>
+              <div>
+                <span class="portal-tag">Faculty & Administration</span>
+                <h3>FACULTY PORTAL</h3>
+              </div>
+            </div>
+            <p>Enter and manage student marks, calculate grades automatically, filter departments, and view comprehensive institutional statistics.</p>
+            
+            <div class="portal-card-meta">
+              <div class="portal-meta-item">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                <span>Automated step-by-step marks entry</span>
+              </div>
+              <div class="portal-meta-item">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                <span>Student records and search management</span>
+              </div>
+              <div class="portal-meta-item">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                <span>Real-time pass/fail metrics</span>
+              </div>
+            </div>
+          </div>
+
+          <a href="./faculty-login.html" class="btn btn-primary btn-block" id="btnFacultyLogin">
+            Faculty Login
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+            </svg>
+          </a>
+        </div>
+
+        <!-- Card 2: Student Portal -->
+        <div class="portal-card" id="cardStudentPortal">
+          <div>
+            <div class="portal-card-header">
+              <div class="portal-icon-wrapper">
+                <!-- Academic / Student SVG Icon -->
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/>
+                  <path d="M6 6h10"/>
+                  <path d="M6 10h10"/>
+                </svg>
+              </div>
+              <div>
+                <span class="portal-tag">Students & Scholars</span>
+                <h3>STUDENT PORTAL</h3>
+              </div>
+            </div>
+            <p>View your academic results, subject-wise breakdown, semester grades, and intelligent performance analytics.</p>
+            
+            <div class="portal-card-meta">
+              <div class="portal-meta-item">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                <span>Instant marksheet certificate view</span>
+              </div>
+              <div class="portal-meta-item">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                <span>Intelligent subject analytics</span>
+              </div>
+              <div class="portal-meta-item">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                <span>Clean print & download options</span>
+              </div>
+            </div>
+          </div>
+
+          <a href="./student-login.html" class="btn btn-primary btn-block" id="btnStudentLogin">
+            Student Login
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- SMART FEATURES SECTION -->
+    <section class="features-section" id="smartFeaturesSection">
+      <div class="features-header">
+        <div class="section-label">Intelligent Architecture</div>
+        <h2>SMART FEATURES</h2>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-item-card" id="featInstantCalc">
+          <div class="feature-icon-box">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" x2="16" y1="6" y2="6"/><line x1="16" x2="16" y1="14" y2="18"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/><path d="M12 14h.01"/><path d="M8 14h.01"/><path d="M12 18h.01"/><path d="M8 18h.01"/>
+            </svg>
+          </div>
+          <div class="feature-text">
+            <h4>Instant Result Calculation</h4>
+            <p>Real-time calculation of Internal, External, and Total marks with strict range boundaries.</p>
+          </div>
+        </div>
+
+        <div class="feature-item-card" id="featIntelligentGrade">
+          <div class="feature-icon-box">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/>
+            </svg>
+          </div>
+          <div class="feature-text">
+            <h4>Intelligent Grade Calculation</h4>
+            <p>Standardized letter grades from O (Outstanding) down to F with automatic Pass/Fail determination.</p>
+          </div>
+        </div>
+
+        <div class="feature-item-card" id="featStudentSearch">
+          <div class="feature-icon-box">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+            </svg>
+          </div>
+          <div class="feature-text">
+            <h4>Student Search</h4>
+            <p>Fast live search by Name or Register Number with dynamic debounce and empty-state fallbacks.</p>
+          </div>
+        </div>
+
+        <div class="feature-item-card" id="featPerformanceAnalytics">
+          <div class="feature-icon-box">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="18" x2="18" y1="20" y2="10"/><line x1="12" x2="12" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="14"/>
+            </svg>
+          </div>
+          <div class="feature-text">
+            <h4>Performance Analytics</h4>
+            <p>Calculates strongest subject, areas requiring study, class averages, and percentage progression.</p>
+          </div>
+        </div>
+
+        <div class="feature-item-card" id="featPrintableResults">
+          <div class="feature-icon-box">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect width="12" height="8" x="6" y="14"/>
+            </svg>
+          </div>
+          <div class="feature-text">
+            <h4>Printable Results</h4>
+            <p>Official print-ready layout with university crest, metadata headers, and signature sections.</p>
+          </div>
+        </div>
+
+        <div class="feature-item-card" id="featResponsiveDesign">
+          <div class="feature-icon-box">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/>
+            </svg>
+          </div>
+          <div class="feature-text">
+            <h4>Responsive Design</h4>
+            <p>Seamlessly optimized for desktop workstations, tablets, and mobile devices with card-table views.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="portal-footer" id="mainFooter">
+    <div class="footer-inner">
+      <div>
+        <strong>CK College of Engineering and Technology (CKCET)</strong> &copy; 2026. Smart Result Portal.
+      </div>
+      <div>
+        Designed for Excellence in Academic Records Management.
+      </div>
+    </div>
+  </footer>
+
+  <script src="./data.js"></script>
+  <script src="./script.js"></script>
+</body>
+</html>

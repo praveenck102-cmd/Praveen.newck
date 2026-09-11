@@ -1,0 +1,6 @@
+{
+  "name": "CK College of Engineering and Technology - Smart Result Portal",
+  "description": "Official Smart Result Portal for CK College of Engineering and Technology (CKCET) with faculty marks entry, student results, and academic performance analytics.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

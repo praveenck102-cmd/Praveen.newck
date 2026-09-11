@@ -303,9 +303,55 @@ const INITIAL_DATA = {
   }
 };
 
+// Initial Master Subjects Seed (Faculty can edit, delete, add, and customize all subjects & codes)
+const DEFAULT_INITIAL_SUBJECTS = [
+  { code: "CS2501", name: "Data Structures", department: "CSE", semester: "III", maxInternal: 25, maxExternal: 75, credits: 4 },
+  { code: "CS2502", name: "Java Programming", department: "CSE", semester: "III", maxInternal: 25, maxExternal: 75, credits: 4 },
+  { code: "MA2501", name: "Mathematics III", department: "CSE", semester: "III", maxInternal: 25, maxExternal: 75, credits: 4 },
+  { code: "CS2503", name: "Computer Networks", department: "CSE", semester: "III", maxInternal: 25, maxExternal: 75, credits: 3 },
+  { code: "CS2504", name: "Database Management Systems", department: "CSE", semester: "III", maxInternal: 25, maxExternal: 75, credits: 3 },
+
+  { code: "CS2401", name: "Design & Analysis of Algorithms", department: "CSE", semester: "IV", maxInternal: 25, maxExternal: 75, credits: 4 },
+  { code: "CS2402", name: "Operating Systems", department: "CSE", semester: "IV", maxInternal: 25, maxExternal: 75, credits: 3 },
+  { code: "CS2403", name: "Software Engineering", department: "CSE", semester: "IV", maxInternal: 25, maxExternal: 75, credits: 3 },
+  { code: "CS2404", name: "Theory of Computation", department: "CSE", semester: "IV", maxInternal: 25, maxExternal: 75, credits: 3 },
+  { code: "MA2401", name: "Probability and Queueing Theory", department: "CSE", semester: "IV", maxInternal: 25, maxExternal: 75, credits: 4 },
+
+  { code: "EC3501", name: "Signals and Systems", department: "ECE", semester: "V", maxInternal: 25, maxExternal: 75, credits: 4 },
+  { code: "EC3502", name: "Digital Signal Processing", department: "ECE", semester: "V", maxInternal: 25, maxExternal: 75, credits: 4 },
+  { code: "EC3503", name: "Microprocessors & Microcontrollers", department: "ECE", semester: "V", maxInternal: 25, maxExternal: 75, credits: 3 },
+  { code: "EC3504", name: "Electromagnetic Fields", department: "ECE", semester: "V", maxInternal: 25, maxExternal: 75, credits: 3 },
+  { code: "EC3505", name: "Communication Theory", department: "ECE", semester: "V", maxInternal: 25, maxExternal: 75, credits: 3 },
+
+  { code: "ME2401", name: "Thermodynamics", department: "MECH", semester: "IV", maxInternal: 25, maxExternal: 75, credits: 4 },
+  { code: "ME2402", name: "Fluid Mechanics", department: "MECH", semester: "IV", maxInternal: 25, maxExternal: 75, credits: 4 },
+  { code: "ME2403", name: "Strength of Materials", department: "MECH", semester: "IV", maxInternal: 25, maxExternal: 75, credits: 3 },
+  { code: "ME2404", name: "Manufacturing Technology", department: "MECH", semester: "IV", maxInternal: 25, maxExternal: 75, credits: 3 },
+  { code: "ME2405", name: "Kinematics of Machinery", department: "MECH", semester: "IV", maxInternal: 25, maxExternal: 75, credits: 3 },
+
+  { code: "IT1201", name: "Python Programming", department: "IT", semester: "II", maxInternal: 25, maxExternal: 75, credits: 3 },
+  { code: "MA1201", name: "Engineering Mathematics II", department: "IT", semester: "II", maxInternal: 25, maxExternal: 75, credits: 4 },
+  { code: "PH1201", name: "Physics for Information Science", department: "IT", semester: "II", maxInternal: 25, maxExternal: 75, credits: 3 },
+  { code: "EE1201", name: "Basic Electrical Engineering", department: "IT", semester: "II", maxInternal: 25, maxExternal: 75, credits: 3 },
+  { code: "GE1201", name: "Problem Solving & C", department: "IT", semester: "II", maxInternal: 25, maxExternal: 75, credits: 3 },
+
+  { code: "EE3501", name: "Power Systems I", department: "EEE", semester: "V", maxInternal: 25, maxExternal: 75, credits: 4 },
+  { code: "EE3502", name: "Electrical Machines II", department: "EEE", semester: "V", maxInternal: 25, maxExternal: 75, credits: 4 },
+  { code: "EE3503", name: "Control Systems", department: "EEE", semester: "V", maxInternal: 25, maxExternal: 75, credits: 3 },
+  { code: "EE3504", name: "Power Electronics", department: "EEE", semester: "V", maxInternal: 25, maxExternal: 75, credits: 3 },
+  { code: "EE3505", name: "Digital Logic Circuits", department: "EEE", semester: "V", maxInternal: 25, maxExternal: 75, credits: 3 },
+
+  { code: "AD1101", name: "Fundamentals of AI", department: "AI&DS", semester: "I", maxInternal: 25, maxExternal: 75, credits: 3 },
+  { code: "MA1101", name: "Matrices and Calculus", department: "AI&DS", semester: "I", maxInternal: 25, maxExternal: 75, credits: 4 },
+  { code: "CY1101", name: "Engineering Chemistry", department: "AI&DS", semester: "I", maxInternal: 25, maxExternal: 75, credits: 3 },
+  { code: "GE1101", name: "Python for Data Science", department: "AI&DS", semester: "I", maxInternal: 25, maxExternal: 75, credits: 3 },
+  { code: "EN1101", name: "Communicative English", department: "AI&DS", semester: "I", maxInternal: 25, maxExternal: 75, credits: 3 }
+];
+
 // Storage Key Constants
 const STORAGE_KEYS = {
   STUDENTS: 'ckcet_students_v1',
+  SUBJECTS: 'ckcet_subjects_v1',
   FACULTY_AUTH: 'ckcet_faculty_auth',
   STUDENT_AUTH: 'ckcet_student_auth',
   THEME: 'ckcet_theme'
@@ -317,6 +363,9 @@ const STORAGE_KEYS = {
 function initDataStore() {
   if (!localStorage.getItem(STORAGE_KEYS.STUDENTS)) {
     localStorage.setItem(STORAGE_KEYS.STUDENTS, JSON.stringify(INITIAL_DATA.students));
+  }
+  if (!localStorage.getItem(STORAGE_KEYS.SUBJECTS)) {
+    localStorage.setItem(STORAGE_KEYS.SUBJECTS, JSON.stringify(DEFAULT_INITIAL_SUBJECTS));
   }
 }
 
@@ -342,11 +391,108 @@ function saveStoredStudents(students) {
 }
 
 /**
+ * Get all configured subjects from LocalStorage (Subject Master)
+ */
+function getStoredSubjects() {
+  initDataStore();
+  try {
+    const raw = localStorage.getItem(STORAGE_KEYS.SUBJECTS);
+    return raw ? JSON.parse(raw) : DEFAULT_INITIAL_SUBJECTS;
+  } catch (err) {
+    console.error("Error parsing subjects data:", err);
+    return DEFAULT_INITIAL_SUBJECTS;
+  }
+}
+
+/**
+ * Save configured subjects to LocalStorage
+ */
+function saveStoredSubjects(subjects) {
+  localStorage.setItem(STORAGE_KEYS.SUBJECTS, JSON.stringify(subjects));
+}
+
+/**
+ * Get subjects for a specific department and semester
+ */
+function getSubjectsForDeptSem(dept, sem) {
+  const all = getStoredSubjects();
+  return all.filter(s => {
+    const matchDept = !dept || s.department === dept || s.department === 'ALL';
+    const matchSem = !sem || s.semester === sem || s.semester === 'ALL';
+    return matchDept && matchSem;
+  });
+}
+
+/**
+ * Add or update a subject in Subject Master
+ * Optionally synchronizes changes to existing students having this subject code
+ */
+function addOrUpdateSubject(subjectData, oldCode = null, syncStudents = true) {
+  let subjects = getStoredSubjects();
+  const targetCode = (oldCode || subjectData.code).toUpperCase().trim();
+  const existingIdx = subjects.findIndex(s => s.code.toUpperCase().trim() === targetCode);
+
+  const newSubject = {
+    code: subjectData.code.toUpperCase().trim(),
+    name: subjectData.name.trim(),
+    department: subjectData.department || 'CSE',
+    semester: subjectData.semester || 'III',
+    maxInternal: Number(subjectData.maxInternal) || 25,
+    maxExternal: Number(subjectData.maxExternal) || 75,
+    credits: Number(subjectData.credits) || 3
+  };
+
+  if (existingIdx >= 0) {
+    subjects[existingIdx] = newSubject;
+  } else {
+    subjects.push(newSubject);
+  }
+  saveStoredSubjects(subjects);
+
+  // Sync to students if requested or if code/name changed
+  if (syncStudents) {
+    let students = getStoredStudents();
+    let updated = false;
+
+    students.forEach(student => {
+      if (Array.isArray(student.subjects)) {
+        student.subjects.forEach(sub => {
+          if (sub.code.toUpperCase().trim() === targetCode) {
+            sub.code = newSubject.code;
+            sub.name = newSubject.name;
+            sub.maxInternal = newSubject.maxInternal;
+            sub.maxExternal = newSubject.maxExternal;
+            updated = true;
+          }
+        });
+      }
+    });
+
+    if (updated) {
+      saveStoredStudents(students);
+    }
+  }
+
+  return newSubject;
+}
+
+/**
+ * Delete a subject from Subject Master
+ */
+function deleteStoredSubject(code) {
+  const normCode = code.toUpperCase().trim();
+  let subjects = getStoredSubjects();
+  subjects = subjects.filter(s => s.code.toUpperCase().trim() !== normCode);
+  saveStoredSubjects(subjects);
+}
+
+/**
  * Reset data back to default initial seed
  */
 function resetDataToDefault() {
   localStorage.setItem(STORAGE_KEYS.STUDENTS, JSON.stringify(INITIAL_DATA.students));
-  return INITIAL_DATA.students;
+  localStorage.setItem(STORAGE_KEYS.SUBJECTS, JSON.stringify(DEFAULT_INITIAL_SUBJECTS));
+  return { students: INITIAL_DATA.students, subjects: DEFAULT_INITIAL_SUBJECTS };
 }
 
 // Auto-run init

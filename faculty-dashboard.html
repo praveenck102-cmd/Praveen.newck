@@ -44,6 +44,15 @@
           <span>Students</span>
         </button>
 
+        <button type="button" class="nav-item-btn" data-view="viewSubjects" id="navItemSubjects">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/>
+            <path d="M6 6h10"/>
+            <path d="M6 10h10"/>
+          </svg>
+          <span>Subject Master</span>
+        </button>
+
         <button type="button" class="nav-item-btn" data-view="viewEnterMarks" id="navItemEnterMarks">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
@@ -342,6 +351,94 @@
         </section>
 
         <!-- ==========================================================
+             VIEW 2B: SUBJECT & COURSE MASTER (DYNAMIC CONFIGURATION)
+             (Faculty can define, customize, edit, and fix all subjects & codes)
+             ========================================================== -->
+        <section class="view-section" id="viewSubjects">
+          <div class="section-header-row">
+            <div class="section-title-wrap">
+              <h2>Subject &amp; Course Code Master</h2>
+              <p>Configure, edit, and fix subjects and subject codes for all departments and semesters</p>
+            </div>
+            <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+              <button type="button" class="btn btn-secondary" id="btnOpenBatchAssignModal">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
+                Batch Assign to Students
+              </button>
+              <button type="button" class="btn btn-primary" id="btnAddNewSubjectTop">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                + Add New Subject
+              </button>
+            </div>
+          </div>
+
+          <!-- Subjects Filter Toolbar -->
+          <div class="table-toolbar-card">
+            <div class="search-input-field">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              <input type="text" id="subjectSearchInput" placeholder="Search by Subject Code (e.g. CS2501) or Subject Name..." />
+            </div>
+
+            <select id="subjectDeptFilter" class="select-filter">
+              <option value="">All Departments</option>
+              <option value="CSE">CSE</option>
+              <option value="ECE">ECE</option>
+              <option value="MECH">MECH</option>
+              <option value="IT">IT</option>
+              <option value="EEE">EEE</option>
+              <option value="AI&DS">AI&DS</option>
+            </select>
+
+            <select id="subjectSemFilter" class="select-filter">
+              <option value="">All Semesters</option>
+              <option value="I">Semester I</option>
+              <option value="II">Semester II</option>
+              <option value="III">Semester III</option>
+              <option value="IV">Semester IV</option>
+              <option value="V">Semester V</option>
+              <option value="VI">Semester VI</option>
+              <option value="VII">Semester VII</option>
+              <option value="VIII">Semester VIII</option>
+            </select>
+
+            <button type="button" class="btn btn-secondary btn-sm" id="btnResetSubjectFilters">Reset</button>
+
+            <span class="badge badge-pass" id="badgeSubjectCount" style="margin-left: auto;">0 Subjects</span>
+          </div>
+
+          <!-- Subjects Table -->
+          <div class="table-container">
+            <table class="data-table table-responsive-cards" id="subjectsMasterTable">
+              <thead>
+                <tr>
+                  <th>Subject Code</th>
+                  <th>Course / Subject Name</th>
+                  <th>Department</th>
+                  <th>Semester</th>
+                  <th>Max Internal</th>
+                  <th>Max External</th>
+                  <th>Total</th>
+                  <th style="text-align: right;">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="subjectsMasterTableBody">
+                <!-- Dynamically populated from getStoredSubjects() -->
+              </tbody>
+            </table>
+
+            <!-- Empty State -->
+            <div id="subjectsEmptyState" class="empty-state-box" style="display: none;">
+              <div class="empty-state-icon">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              </div>
+              <h3>No subjects match your filters</h3>
+              <p>Configure custom subjects and subject codes using the "+ Add New Subject" button.</p>
+              <button type="button" class="btn btn-primary btn-sm" id="btnEmptyAddSubject" style="margin-top: 1rem;">+ Add New Subject</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==========================================================
              VIEW 3: ENTER MARKS
              ========================================================== -->
         <section class="view-section" id="viewEnterMarks">
@@ -425,9 +522,14 @@
 
                 <!-- Existing curriculum shortcut dropdown -->
                 <div class="form-group">
-                  <label class="form-label" for="curriculumQuickSelect">Or pick standard department subject</label>
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
+                    <label class="form-label" for="curriculumQuickSelect" style="margin: 0;">Or pick from faculty-configured subjects</label>
+                    <button type="button" id="btnGoToSubjectMasterFromMarks" style="background: none; border: none; color: var(--primary-600); font-size: 0.775rem; font-weight: 600; cursor: pointer; text-decoration: underline;">
+                      + Open Subject Master
+                    </button>
+                  </div>
                   <select class="form-select" id="curriculumQuickSelect">
-                    <option value="">-- Choose from standard curriculum --</option>
+                    <option value="">-- Choose from faculty-configured subjects --</option>
                   </select>
                 </div>
 
@@ -510,6 +612,7 @@
                         <th>Total</th>
                         <th>Grade</th>
                         <th>Result</th>
+                        <th style="text-align: right;">Actions</th>
                       </tr>
                     </thead>
                     <tbody id="studentExistingSubjectsBody">
@@ -720,8 +823,16 @@
             </div>
           </div>
 
+          <div class="form-group">
+            <label class="form-label" for="newStudentSubjectInitMode">Subjects Assignment</label>
+            <select id="newStudentSubjectInitMode" class="form-select">
+              <option value="auto" selected>Auto-assign faculty-configured subjects for this Dept &amp; Semester</option>
+              <option value="empty">Start with empty subjects (I will add custom subjects later)</option>
+            </select>
+          </div>
+
           <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.5rem;">
-            Initial standard semester subjects will be automatically linked to this student for immediate mark entry.
+            Subjects and subject codes can be freely managed, edited, and customized in the Faculty portal anytime.
           </p>
         </div>
         <div class="modal-footer">
@@ -753,6 +864,245 @@
           Print Marksheet
         </button>
       </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================
+       MODAL 3: ADD / EDIT SUBJECT IN SUBJECT MASTER
+       (Faculty can configure any subject and subject code)
+       ========================================================== -->
+  <div class="modal-backdrop" id="modalAddEditSubject">
+    <div class="modal-dialog" style="max-width: 540px;">
+      <div class="modal-header">
+        <h3 id="modalSubjectFormTitle">Add New Subject</h3>
+        <button type="button" class="modal-close-btn" data-close="modalAddEditSubject">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <form id="formAddEditSubject">
+        <input type="hidden" id="editSubjectOriginalCode" value="" />
+        <div class="modal-body">
+          <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 1rem;">
+            <div class="form-group">
+              <label class="form-label" for="subjectFormCode">Subject Code *</label>
+              <input type="text" id="subjectFormCode" class="form-input" placeholder="e.g. CS2501" required style="font-weight: 700; text-transform: uppercase;" />
+              <small style="color: var(--text-muted); font-size: 0.75rem;">Freely customizable</small>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="subjectFormName">Course / Subject Name *</label>
+              <input type="text" id="subjectFormName" class="form-input" placeholder="e.g. Data Structures & Algorithms" required />
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-group">
+              <label class="form-label" for="subjectFormDept">Department *</label>
+              <select id="subjectFormDept" class="form-select" required>
+                <option value="CSE">CSE - Computer Science</option>
+                <option value="ECE">ECE - Electronics & Comm</option>
+                <option value="MECH">MECH - Mechanical</option>
+                <option value="IT">IT - Information Tech</option>
+                <option value="EEE">EEE - Electrical & Electronics</option>
+                <option value="AI&DS">AI&DS - Artificial Intelligence</option>
+                <option value="ALL">ALL - Common / All Departments</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="subjectFormSem">Semester *</label>
+              <select id="subjectFormSem" class="form-select" required>
+                <option value="I">Semester I</option>
+                <option value="II">Semester II</option>
+                <option value="III" selected>Semester III</option>
+                <option value="IV">Semester IV</option>
+                <option value="V">Semester V</option>
+                <option value="VI">Semester VI</option>
+                <option value="VII">Semester VII</option>
+                <option value="VIII">Semester VIII</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem;">
+            <div class="form-group">
+              <label class="form-label" for="subjectFormMaxInternal">Max Internal</label>
+              <input type="number" id="subjectFormMaxInternal" class="form-input" value="25" min="0" max="100" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="subjectFormMaxExternal">Max External</label>
+              <input type="number" id="subjectFormMaxExternal" class="form-input" value="75" min="0" max="100" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="subjectFormCredits">Credits</label>
+              <input type="number" id="subjectFormCredits" class="form-input" value="3" min="1" max="10" required />
+            </div>
+          </div>
+
+          <div style="background: var(--bg-subtle); padding: 0.85rem 1rem; border-radius: var(--radius-md); border: 1px solid var(--border-subtle); margin-top: 0.5rem;">
+            <label style="display: flex; align-items: center; gap: 0.6rem; cursor: pointer; font-size: 0.85rem; font-weight: 600; color: var(--text-main);">
+              <input type="checkbox" id="subjectFormSyncStudents" checked style="width: 16px; height: 16px; accent-color: var(--primary-600);" />
+              <span>Synchronize: update existing student records if editing this subject code or name</span>
+            </label>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-close="modalAddEditSubject">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="btnSaveSubjectModal">Save Subject</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==========================================================
+       MODAL 4: MANAGE SPECIFIC STUDENT'S SUBJECTS & MARKS
+       (Faculty can add/edit/remove subjects for any individual student)
+       ========================================================== -->
+  <div class="modal-backdrop" id="modalManageStudentSubjects">
+    <div class="modal-dialog" style="max-width: 850px;">
+      <div class="modal-header">
+        <div>
+          <h3 id="manageStudentModalTitle">Manage Student Subjects &amp; Marks</h3>
+          <p id="manageStudentModalSubtitle" style="font-size: 0.85rem; color: var(--text-muted); margin: 0;"></p>
+        </div>
+        <button type="button" class="modal-close-btn" data-close="modalManageStudentSubjects">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="manageStudentRegNo" value="" />
+
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+          <h4 style="font-size: 1rem; font-weight: 700; color: var(--text-main);">Current Assigned Subjects</h4>
+          <span class="badge badge-pass" id="manageStudentSubjectCount">0 Subjects</span>
+        </div>
+
+        <div class="table-container" style="margin-bottom: 1.5rem; max-height: 260px; overflow-y: auto;">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Code</th>
+                <th>Subject Name</th>
+                <th>Internal (25)</th>
+                <th>External (75)</th>
+                <th>Total</th>
+                <th>Grade</th>
+                <th>Result</th>
+                <th style="text-align: right;">Action</th>
+              </tr>
+            </thead>
+            <tbody id="manageStudentSubjectsTableBody">
+              <!-- Populated dynamically -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Add or Edit Subject for this Student -->
+        <div style="background: var(--bg-subtle); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
+          <h4 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 0.85rem; color: var(--text-main); display: flex; align-items: center; gap: 0.5rem;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            <span id="manageStudentFormTitle">Add / Assign Subject to this Student</span>
+          </h4>
+
+          <form id="formStudentSubjectItem">
+            <input type="hidden" id="studentSubjectEditIndex" value="-1" />
+            
+            <div style="margin-bottom: 0.85rem;">
+              <label class="form-label" style="font-size: 0.8rem;">Quick Select from Subject Master</label>
+              <select id="studentSubjectMasterSelect" class="form-select" style="font-size: 0.85rem;">
+                <option value="">-- Choose from faculty-configured subjects --</option>
+              </select>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1.2fr 2fr 1fr 1fr; gap: 0.75rem; margin-bottom: 0.85rem;">
+              <div>
+                <label class="form-label" style="font-size: 0.8rem;">Subject Code *</label>
+                <input type="text" id="studentSubjectCode" class="form-input" placeholder="e.g. CS2501" required style="text-transform: uppercase; font-weight: 700;" />
+              </div>
+              <div>
+                <label class="form-label" style="font-size: 0.8rem;">Subject Name *</label>
+                <input type="text" id="studentSubjectName" class="form-input" placeholder="e.g. Data Structures" required />
+              </div>
+              <div>
+                <label class="form-label" style="font-size: 0.8rem;">Internal (0-25)</label>
+                <input type="number" id="studentSubjectInt" class="form-input" min="0" max="25" value="0" required />
+              </div>
+              <div>
+                <label class="form-label" style="font-size: 0.8rem;">External (0-75)</label>
+                <input type="number" id="studentSubjectExt" class="form-input" min="0" max="75" value="0" required />
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 0.75rem; justify-content: flex-end;">
+              <button type="button" class="btn btn-secondary btn-sm" id="btnResetStudentSubjectForm">Clear Form</button>
+              <button type="submit" class="btn btn-primary btn-sm" id="btnSaveStudentSubjectItem">+ Save Subject for Student</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-close="modalManageStudentSubjects">Done</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================
+       MODAL 5: BATCH ASSIGN SUBJECTS TO DEPT STUDENTS
+       ========================================================== -->
+  <div class="modal-backdrop" id="modalBatchAssign">
+    <div class="modal-dialog" style="max-width: 580px;">
+      <div class="modal-header">
+        <h3>Assign Subjects to Student Batch</h3>
+        <button type="button" class="modal-close-btn" data-close="modalBatchAssign">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <form id="formBatchAssign">
+        <div class="modal-body">
+          <p style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 1rem;">
+            Select department and semester to assign faculty-configured subjects to all matching students.
+          </p>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+            <div class="form-group">
+              <label class="form-label" for="batchAssignDept">Department</label>
+              <select id="batchAssignDept" class="form-select" required>
+                <option value="CSE">CSE</option>
+                <option value="ECE">ECE</option>
+                <option value="MECH">MECH</option>
+                <option value="IT">IT</option>
+                <option value="EEE">EEE</option>
+                <option value="AI&DS">AI&DS</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="batchAssignSem">Semester</label>
+              <select id="batchAssignSem" class="form-select" required>
+                <option value="I">Semester I</option>
+                <option value="II">Semester II</option>
+                <option value="III" selected>Semester III</option>
+                <option value="IV">Semester IV</option>
+                <option value="V">Semester V</option>
+                <option value="VI">Semester VI</option>
+                <option value="VII">Semester VII</option>
+                <option value="VIII">Semester VIII</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+              <label class="form-label" style="margin: 0;">Subjects to Assign</label>
+              <span id="batchSubjectCountHint" style="font-size: 0.775rem; color: var(--text-muted);">Select subjects</span>
+            </div>
+            <div id="batchSubjectsCheckboxList" style="max-height: 180px; overflow-y: auto; border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 0.75rem; background: var(--bg-surface);">
+              <!-- Checkboxes rendered dynamically -->
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-close="modalBatchAssign">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="btnExecuteBatchAssign">Assign to Matching Students</button>
+        </div>
+      </form>
     </div>
   </div>
 
@@ -817,6 +1167,7 @@
         // Refresh views
         if (viewId === 'viewDashboard') renderDashboardOverview();
         if (viewId === 'viewStudents') renderStudentsTable();
+        if (viewId === 'viewSubjects') renderSubjectsMasterTable();
         if (viewId === 'viewResults') renderResultsTable();
         if (viewId === 'viewAnalytics') renderAnalyticsView();
       }
@@ -834,6 +1185,10 @@
       document.getElementById('btnGoToResults')?.addEventListener('click', () => switchView('viewResults'));
       document.getElementById('btnQuickAddStudent')?.addEventListener('click', () => openModal('modalAddStudent'));
       document.getElementById('btnAddStudentMain')?.addEventListener('click', () => openModal('modalAddStudent'));
+      document.getElementById('btnGoToSubjectMasterFromMarks')?.addEventListener('click', () => switchView('viewSubjects'));
+      document.getElementById('btnAddNewSubjectTop')?.addEventListener('click', () => openSubjectAddModal());
+      document.getElementById('btnEmptyAddSubject')?.addEventListener('click', () => openSubjectAddModal());
+      document.getElementById('btnOpenBatchAssignModal')?.addEventListener('click', () => openBatchAssignModal());
 
       // Sidebar Mobile Toggle
       document.getElementById('sidebarToggleBtn').addEventListener('click', () => {
@@ -982,6 +1337,9 @@
                 <button type="button" class="action-icon-btn btn-view" title="View Marksheet" data-view-reg="${student.registerNo}">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
                 </button>
+                <button type="button" class="action-icon-btn btn-subjects" title="Manage Student's Subjects & Codes" data-subjects-reg="${student.registerNo}">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 6h10"/><path d="M6 10h10"/></svg>
+                </button>
                 <button type="button" class="action-icon-btn btn-edit" title="Enter / Edit Marks" data-edit-reg="${student.registerNo}">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
                 </button>
@@ -1000,6 +1358,13 @@
           b.addEventListener('click', () => {
             const reg = b.getAttribute('data-view-reg');
             viewStudentMarksheetModal(reg);
+          });
+        });
+
+        tbody.querySelectorAll('[data-subjects-reg]').forEach(b => {
+          b.addEventListener('click', () => {
+            const reg = b.getAttribute('data-subjects-reg');
+            openManageStudentSubjectsModal(reg);
           });
         });
 
@@ -1062,23 +1427,30 @@
           return;
         }
 
-        // Get default subjects for this dept and semester
+        // Get default subjects for this dept and semester from Master List
         let initialSubjects = [];
-        if (INITIAL_DATA.curriculum[dept] && INITIAL_DATA.curriculum[dept][sem]) {
-          initialSubjects = INITIAL_DATA.curriculum[dept][sem].map(sub => ({
-            code: sub.code,
-            name: sub.name,
-            internal: 0,
-            external: 0,
-            maxInternal: 25,
-            maxExternal: 75
-          }));
-        } else {
-          initialSubjects = [
-            { code: `${dept}01`, name: "Core Discipline I", internal: 0, external: 0, maxInternal: 25, maxExternal: 75 },
-            { code: `${dept}02`, name: "Core Discipline II", internal: 0, external: 0, maxInternal: 25, maxExternal: 75 },
-            { code: `MA01`, name: "Engineering Mathematics", internal: 0, external: 0, maxInternal: 25, maxExternal: 75 }
-          ];
+        const subjectInitMode = document.getElementById('newStudentSubjectInitMode')?.value || 'auto';
+        if (subjectInitMode === 'auto') {
+          const configuredSubs = getSubjectsForDeptSem(dept, sem);
+          if (configuredSubs.length > 0) {
+            initialSubjects = configuredSubs.map(sub => ({
+              code: sub.code,
+              name: sub.name,
+              internal: 0,
+              external: 0,
+              maxInternal: sub.maxInternal || 25,
+              maxExternal: sub.maxExternal || 75
+            }));
+          } else if (INITIAL_DATA.curriculum[dept] && INITIAL_DATA.curriculum[dept][sem]) {
+            initialSubjects = INITIAL_DATA.curriculum[dept][sem].map(sub => ({
+              code: sub.code,
+              name: sub.name,
+              internal: 0,
+              external: 0,
+              maxInternal: 25,
+              maxExternal: 75
+            }));
+          }
         }
 
         const newStudent = {
@@ -1196,12 +1568,13 @@
         document.getElementById('activeStudentMeta').textContent = 
           `${activeStudent.registerNo} • ${activeStudent.department} • ${activeStudent.year} • Semester ${activeStudent.semester}`;
 
-        // Populate curriculum select options
-        curriculumSelect.innerHTML = '<option value="">-- Choose from standard curriculum --</option>';
+        // Populate curriculum select options from stored subjects
+        curriculumSelect.innerHTML = '<option value="">-- Choose from faculty-configured subjects --</option>';
         const dept = activeStudent.department;
         const sem = activeStudent.semester;
-        if (INITIAL_DATA.curriculum[dept] && INITIAL_DATA.curriculum[dept][sem]) {
-          INITIAL_DATA.curriculum[dept][sem].forEach(sub => {
+        const availableSubs = getSubjectsForDeptSem(dept, sem);
+        if (availableSubs && availableSubs.length > 0) {
+          availableSubs.forEach(sub => {
             const opt = document.createElement('option');
             opt.value = sub.code;
             opt.textContent = `${sub.code} - ${sub.name}`;
@@ -1368,7 +1741,7 @@
         tbody.innerHTML = '';
 
         if (!student.subjects || student.subjects.length === 0) {
-          tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; color: var(--text-muted);">No subjects recorded yet</td></tr>';
+          tbody.innerHTML = '<tr><td colspan="8" style="text-align: center; color: var(--text-muted); padding: 1.5rem;">No subjects recorded yet for this student</td></tr>';
           return;
         }
 
@@ -1383,8 +1756,58 @@
             <td style="font-weight: 700;">${calc.total}</td>
             <td><span class="badge-grade">${calc.grade}</span></td>
             <td><span class="badge badge-${calc.result.toLowerCase()}">${calc.result}</span></td>
+            <td style="text-align: right;">
+              <div class="table-actions" style="justify-content: flex-end;">
+                <button type="button" class="action-icon-btn btn-edit" title="Edit this mark" data-quick-edit-sub="${sub.code}">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                </button>
+                <button type="button" class="action-icon-btn btn-delete" title="Delete subject from student" data-quick-del-sub="${sub.code}">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                </button>
+              </div>
+            </td>
           `;
           tbody.appendChild(tr);
+        });
+
+        tbody.querySelectorAll('[data-quick-edit-sub]').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const code = btn.getAttribute('data-quick-edit-sub');
+            const targetSub = student.subjects.find(s => s.code === code);
+            if (targetSub) {
+              subjectCodeInput.value = targetSub.code;
+              subjectNameInput.value = targetSub.name;
+              internalInput.value = targetSub.internal;
+              externalInput.value = targetSub.external;
+              curriculumSelect.value = targetSub.code;
+              updateLiveCalc();
+              internalInput.focus();
+              showToast(`Editing ${targetSub.code} - ${targetSub.name}`, 'info');
+            }
+          });
+        });
+
+        tbody.querySelectorAll('[data-quick-del-sub]').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const code = btn.getAttribute('data-quick-del-sub');
+            confirmDialog(
+              'Remove Subject from Student',
+              `Are you sure you want to remove subject "${code}" from student ${student.name}?`,
+              () => {
+                const students = getStoredStudents();
+                const sIdx = students.findIndex(s => s.registerNo.toUpperCase() === student.registerNo.toUpperCase());
+                if (sIdx >= 0) {
+                  students[sIdx].subjects = (students[sIdx].subjects || []).filter(s => s.code !== code);
+                  saveStoredStudents(students);
+                  activeStudent = students[sIdx];
+                  renderStudentExistingSubjects(activeStudent);
+                  renderDashboardOverview();
+                  renderStudentsTable();
+                  showToast('✓ Subject removed from student record', 'info');
+                }
+              }
+            );
+          });
         });
       }
 
@@ -1626,9 +2049,601 @@
         );
       });
 
+      // ==========================================================
+      // SUBJECT & COURSE CODE MASTER CONTROLLER
+      // (Faculty can define, customize, edit, and fix all subjects & codes)
+      // ==========================================================
+      const subjectSearchInput = document.getElementById('subjectSearchInput');
+      const subjectDeptFilter = document.getElementById('subjectDeptFilter');
+      const subjectSemFilter = document.getElementById('subjectSemFilter');
+      const btnResetSubjectFilters = document.getElementById('btnResetSubjectFilters');
+      const badgeSubjectCount = document.getElementById('badgeSubjectCount');
+      const subjectsMasterTable = document.getElementById('subjectsMasterTable');
+      const subjectsMasterTableBody = document.getElementById('subjectsMasterTableBody');
+      const subjectsEmptyState = document.getElementById('subjectsEmptyState');
+      const formAddEditSubject = document.getElementById('formAddEditSubject');
+
+      function renderSubjectsMasterTable() {
+        if (!subjectsMasterTableBody) return;
+        const allSubjects = getStoredSubjects();
+        const query = (subjectSearchInput?.value || '').trim().toLowerCase();
+        const dept = subjectDeptFilter?.value || '';
+        const sem = subjectSemFilter?.value || '';
+
+        const filtered = allSubjects.filter(sub => {
+          const matchQuery = !query || 
+            sub.code.toLowerCase().includes(query) || 
+            sub.name.toLowerCase().includes(query) || 
+            (sub.department && sub.department.toLowerCase().includes(query)) ||
+            (sub.semester && sub.semester.toLowerCase().includes(query));
+          const matchDept = !dept || sub.department === dept || sub.department === 'ALL';
+          const matchSem = !sem || sub.semester === sem;
+          return matchQuery && matchDept && matchSem;
+        });
+
+        if (badgeSubjectCount) {
+          badgeSubjectCount.textContent = `${filtered.length} Subjects`;
+        }
+
+        if (filtered.length === 0) {
+          subjectsMasterTableBody.innerHTML = '';
+          if (subjectsMasterTable) subjectsMasterTable.style.display = 'none';
+          if (subjectsEmptyState) subjectsEmptyState.style.display = 'flex';
+          return;
+        }
+
+        if (subjectsMasterTable) subjectsMasterTable.style.display = 'table';
+        if (subjectsEmptyState) subjectsEmptyState.style.display = 'none';
+
+        subjectsMasterTableBody.innerHTML = '';
+        filtered.forEach(sub => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td data-label="Subject Code">
+              <span class="badge" style="background: var(--primary-50); color: var(--primary-700); font-weight: 800; font-family: monospace; font-size: 0.9rem;">
+                ${sub.code}
+              </span>
+            </td>
+            <td data-label="Course Name" style="font-weight: 600; color: var(--text-main);">
+              ${sub.name}
+            </td>
+            <td data-label="Department">
+              <span class="badge" style="background: var(--bg-subtle); color: var(--text-main);">
+                ${sub.department}
+              </span>
+            </td>
+            <td data-label="Semester">
+              <span class="badge" style="background: var(--bg-subtle); color: var(--text-main);">
+                Sem ${sub.semester}
+              </span>
+            </td>
+            <td data-label="Max Internal">${sub.maxInternal || 25}</td>
+            <td data-label="Max External">${sub.maxExternal || 75}</td>
+            <td data-label="Total" style="font-weight: 700;">100</td>
+            <td data-label="Actions" style="text-align: right;">
+              <div class="table-actions" style="justify-content: flex-end;">
+                <button type="button" class="action-icon-btn btn-assign" title="Assign to all students in ${sub.department} Sem ${sub.semester}" data-assign-sub-code="${sub.code}">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
+                </button>
+                <button type="button" class="action-icon-btn btn-edit" title="Edit Subject & Code" data-edit-sub-code="${sub.code}">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                </button>
+                <button type="button" class="action-icon-btn btn-delete" title="Delete Subject" data-del-sub-code="${sub.code}">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                </button>
+              </div>
+            </td>
+          `;
+          subjectsMasterTableBody.appendChild(tr);
+        });
+
+        // Bind Edit buttons
+        subjectsMasterTableBody.querySelectorAll('[data-edit-sub-code]').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const code = btn.getAttribute('data-edit-sub-code');
+            openSubjectEditModal(code);
+          });
+        });
+
+        // Bind Delete buttons
+        subjectsMasterTableBody.querySelectorAll('[data-del-sub-code]').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const code = btn.getAttribute('data-del-sub-code');
+            confirmDialog(
+              'Delete Subject from Master List',
+              `Are you sure you want to delete subject "${code}" from the master curriculum? This will not alter existing student marksheets unless explicitly removed.`,
+              () => {
+                deleteStoredSubject(code);
+                renderSubjectsMasterTable();
+                showToast(`✓ Subject ${code} deleted from Master List`, 'success');
+              }
+            );
+          });
+        });
+
+        // Bind Quick Assign buttons
+        subjectsMasterTableBody.querySelectorAll('[data-assign-sub-code]').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const code = btn.getAttribute('data-assign-sub-code');
+            const sub = getStoredSubjects().find(s => s.code.toUpperCase() === code.toUpperCase());
+            if (!sub) return;
+
+            confirmDialog(
+              'Assign Subject to Students',
+              `Assign subject "${sub.code} - ${sub.name}" to all students in ${sub.department} Semester ${sub.semester}?`,
+              () => {
+                const students = getStoredStudents();
+                let assignedCount = 0;
+                students.forEach(st => {
+                  const matchDept = sub.department === 'ALL' || st.department === sub.department;
+                  const matchSem = st.semester === sub.semester;
+                  if (matchDept && matchSem) {
+                    if (!Array.isArray(st.subjects)) st.subjects = [];
+                    const exists = st.subjects.some(s => s.code.toUpperCase() === sub.code.toUpperCase());
+                    if (!exists) {
+                      st.subjects.push({
+                        code: sub.code,
+                        name: sub.name,
+                        internal: 0,
+                        external: 0,
+                        maxInternal: sub.maxInternal || 25,
+                        maxExternal: sub.maxExternal || 75
+                      });
+                      assignedCount++;
+                    }
+                  }
+                });
+
+                if (assignedCount > 0) {
+                  saveStoredStudents(students);
+                  renderStudentsTable();
+                  renderDashboardOverview();
+                  showToast(`✓ Assigned ${sub.code} to ${assignedCount} students in ${sub.department} Sem ${sub.semester}`, 'success');
+                } else {
+                  showToast(`ℹ All matching students already have subject ${sub.code}`, 'info');
+                }
+              }
+            );
+          });
+        });
+      }
+
+      // Filter events
+      [subjectSearchInput, subjectDeptFilter, subjectSemFilter].forEach(el => {
+        el?.addEventListener('input', renderSubjectsMasterTable);
+        el?.addEventListener('change', renderSubjectsMasterTable);
+      });
+
+      btnResetSubjectFilters?.addEventListener('click', () => {
+        if (subjectSearchInput) subjectSearchInput.value = '';
+        if (subjectDeptFilter) subjectDeptFilter.value = '';
+        if (subjectSemFilter) subjectSemFilter.value = '';
+        renderSubjectsMasterTable();
+      });
+
+      function openSubjectAddModal() {
+        formAddEditSubject.reset();
+        document.getElementById('modalSubjectFormTitle').textContent = 'Add New Subject & Course Code';
+        document.getElementById('editSubjectOriginalCode').value = '';
+        document.getElementById('subjectFormMaxInternal').value = 25;
+        document.getElementById('subjectFormMaxExternal').value = 75;
+        document.getElementById('subjectFormCredits').value = 3;
+        document.getElementById('btnSaveSubjectModal').textContent = '+ Save Subject';
+        openModal('modalAddEditSubject');
+      }
+
+      function openSubjectEditModal(code) {
+        const subjects = getStoredSubjects();
+        const found = subjects.find(s => s.code.toUpperCase() === code.toUpperCase());
+        if (!found) {
+          showToast('✕ Subject not found', 'error');
+          return;
+        }
+
+        document.getElementById('modalSubjectFormTitle').textContent = `Edit Subject: ${found.code}`;
+        document.getElementById('editSubjectOriginalCode').value = found.code;
+        document.getElementById('subjectFormCode').value = found.code;
+        document.getElementById('subjectFormName').value = found.name;
+        document.getElementById('subjectFormDept').value = found.department;
+        document.getElementById('subjectFormSem').value = found.semester;
+        document.getElementById('subjectFormMaxInternal').value = found.maxInternal || 25;
+        document.getElementById('subjectFormMaxExternal').value = found.maxExternal || 75;
+        document.getElementById('subjectFormCredits').value = found.credits || 3;
+        document.getElementById('btnSaveSubjectModal').textContent = 'Update Subject';
+        openModal('modalAddEditSubject');
+      }
+
+      formAddEditSubject?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const originalCode = document.getElementById('editSubjectOriginalCode').value.trim();
+        const code = document.getElementById('subjectFormCode').value.trim().toUpperCase();
+        const name = document.getElementById('subjectFormName').value.trim();
+        const department = document.getElementById('subjectFormDept').value;
+        const semester = document.getElementById('subjectFormSem').value;
+        const maxInternal = parseInt(document.getElementById('subjectFormMaxInternal').value, 10) || 25;
+        const maxExternal = parseInt(document.getElementById('subjectFormMaxExternal').value, 10) || 75;
+        const credits = parseInt(document.getElementById('subjectFormCredits').value, 10) || 3;
+        const syncStudents = document.getElementById('subjectFormSyncStudents')?.checked ?? true;
+
+        if (!code || !name) {
+          showToast('✕ Please fill in Subject Code and Name', 'error');
+          return;
+        }
+
+        const subjectData = {
+          code,
+          name,
+          department,
+          semester,
+          maxInternal,
+          maxExternal,
+          credits
+        };
+
+        const result = addOrUpdateSubject(subjectData, originalCode, syncStudents);
+        if (result.success) {
+          showToast(originalCode ? `✓ Subject ${code} updated successfully` : `✓ Subject ${code} added to Master List`, 'success');
+          closeModal('modalAddEditSubject');
+          renderSubjectsMasterTable();
+          renderStudentsTable();
+          renderDashboardOverview();
+        } else {
+          showToast(`✕ ${result.message}`, 'error');
+        }
+      });
+
+      // ==========================================================
+      // MANAGE SPECIFIC STUDENT'S SUBJECTS & MARKS CONTROLLER
+      // ==========================================================
+      const manageStudentRegNoInput = document.getElementById('manageStudentRegNo');
+      const manageStudentSubjectsTableBody = document.getElementById('manageStudentSubjectsTableBody');
+      const manageStudentSubjectCount = document.getElementById('manageStudentSubjectCount');
+      const studentSubjectMasterSelect = document.getElementById('studentSubjectMasterSelect');
+      const formStudentSubjectItem = document.getElementById('formStudentSubjectItem');
+      const studentSubjectEditIndex = document.getElementById('studentSubjectEditIndex');
+      const studentSubjectCode = document.getElementById('studentSubjectCode');
+      const studentSubjectName = document.getElementById('studentSubjectName');
+      const studentSubjectInt = document.getElementById('studentSubjectInt');
+      const studentSubjectExt = document.getElementById('studentSubjectExt');
+      const btnResetStudentSubjectForm = document.getElementById('btnResetStudentSubjectForm');
+      const btnSaveStudentSubjectItem = document.getElementById('btnSaveStudentSubjectItem');
+      const manageStudentFormTitle = document.getElementById('manageStudentFormTitle');
+
+      function openManageStudentSubjectsModal(regNo) {
+        const students = getStoredStudents();
+        const student = students.find(s => s.registerNo.toUpperCase() === regNo.toUpperCase());
+        if (!student) {
+          showToast('✕ Student not found', 'error');
+          return;
+        }
+
+        manageStudentRegNoInput.value = student.registerNo;
+        document.getElementById('manageStudentModalTitle').textContent = `Manage Subjects: ${student.name}`;
+        document.getElementById('manageStudentModalSubtitle').textContent = 
+          `Register No: ${student.registerNo} | ${student.department} | Semester ${student.semester} | Year ${student.year}`;
+
+        // Populate quick select from Subject Master
+        if (studentSubjectMasterSelect) {
+          studentSubjectMasterSelect.innerHTML = '<option value="">-- Choose from faculty-configured subjects --</option>';
+          const subs = getSubjectsForDeptSem(student.department, student.semester);
+          subs.forEach(sub => {
+            const opt = document.createElement('option');
+            opt.value = sub.code;
+            opt.textContent = `${sub.code} - ${sub.name}`;
+            opt.dataset.name = sub.name;
+            studentSubjectMasterSelect.appendChild(opt);
+          });
+        }
+
+        resetStudentSubjectSubForm();
+        renderManageStudentSubjectsTable(student);
+        openModal('modalManageStudentSubjects');
+      }
+
+      function resetStudentSubjectSubForm() {
+        studentSubjectEditIndex.value = '-1';
+        studentSubjectCode.value = '';
+        studentSubjectName.value = '';
+        studentSubjectInt.value = 0;
+        studentSubjectExt.value = 0;
+        if (studentSubjectMasterSelect) studentSubjectMasterSelect.value = '';
+        manageStudentFormTitle.textContent = 'Add / Assign Subject to this Student';
+        btnSaveStudentSubjectItem.textContent = '+ Save Subject for Student';
+      }
+
+      btnResetStudentSubjectForm?.addEventListener('click', resetStudentSubjectSubForm);
+
+      studentSubjectMasterSelect?.addEventListener('change', () => {
+        const selected = studentSubjectMasterSelect.options[studentSubjectMasterSelect.selectedIndex];
+        if (selected && selected.value) {
+          studentSubjectCode.value = selected.value;
+          studentSubjectName.value = selected.dataset.name || '';
+        }
+      });
+
+      function renderManageStudentSubjectsTable(student) {
+        if (!manageStudentSubjectsTableBody) return;
+        manageStudentSubjectsTableBody.innerHTML = '';
+        const subs = student.subjects || [];
+
+        if (manageStudentSubjectCount) {
+          manageStudentSubjectCount.textContent = `${subs.length} Subjects`;
+        }
+
+        if (subs.length === 0) {
+          manageStudentSubjectsTableBody.innerHTML = `
+            <tr>
+              <td colspan="8" style="text-align: center; color: var(--text-muted); padding: 1.5rem;">
+                No subjects assigned yet to this student. Use the form below or pick from faculty-configured subjects to assign one.
+              </td>
+            </tr>
+          `;
+          return;
+        }
+
+        subs.forEach((sub, idx) => {
+          const calc = calculateSubjectGrade(sub.internal, sub.external);
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td><strong style="font-family: monospace; color: var(--primary-700);">${sub.code}</strong></td>
+            <td style="font-weight: 600;">${sub.name}</td>
+            <td>${sub.internal}</td>
+            <td>${sub.external}</td>
+            <td style="font-weight: 700;">${calc.total}</td>
+            <td><span class="badge-grade">${calc.grade}</span></td>
+            <td><span class="badge badge-${calc.result.toLowerCase()}">${calc.result}</span></td>
+            <td style="text-align: right;">
+              <div class="table-actions" style="justify-content: flex-end;">
+                <button type="button" class="action-icon-btn btn-edit" title="Edit Mark / Code" data-manage-edit-idx="${idx}">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                </button>
+                <button type="button" class="action-icon-btn btn-delete" title="Delete Subject" data-manage-del-idx="${idx}">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                </button>
+              </div>
+            </td>
+          `;
+          manageStudentSubjectsTableBody.appendChild(tr);
+        });
+
+        // Bind Edit buttons
+        manageStudentSubjectsTableBody.querySelectorAll('[data-manage-edit-idx]').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const idx = parseInt(btn.getAttribute('data-manage-edit-idx'), 10);
+            const sub = subs[idx];
+            if (!sub) return;
+
+            studentSubjectEditIndex.value = idx;
+            studentSubjectCode.value = sub.code;
+            studentSubjectName.value = sub.name;
+            studentSubjectInt.value = sub.internal;
+            studentSubjectExt.value = sub.external;
+            manageStudentFormTitle.textContent = `Edit Subject: ${sub.code} - ${sub.name}`;
+            btnSaveStudentSubjectItem.textContent = 'Update Subject for Student';
+            studentSubjectInt.focus();
+          });
+        });
+
+        // Bind Delete buttons
+        manageStudentSubjectsTableBody.querySelectorAll('[data-manage-del-idx]').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const idx = parseInt(btn.getAttribute('data-manage-del-idx'), 10);
+            const sub = subs[idx];
+            if (!sub) return;
+
+            confirmDialog(
+              'Remove Subject',
+              `Remove subject "${sub.code} - ${sub.name}" from ${student.name}?`,
+              () => {
+                const students = getStoredStudents();
+                const cur = students.find(s => s.registerNo.toUpperCase() === student.registerNo.toUpperCase());
+                if (cur && Array.isArray(cur.subjects)) {
+                  cur.subjects.splice(idx, 1);
+                  saveStoredStudents(students);
+                  showToast(`✓ Removed ${sub.code} from ${student.name}`, 'info');
+                  resetStudentSubjectSubForm();
+                  renderManageStudentSubjectsTable(cur);
+                  renderStudentsTable();
+                  renderDashboardOverview();
+                  if (activeStudent && activeStudent.registerNo === cur.registerNo) {
+                    activeStudent = cur;
+                    renderStudentExistingSubjects(activeStudent);
+                  }
+                }
+              }
+            );
+          });
+        });
+      }
+
+      formStudentSubjectItem?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const regNo = manageStudentRegNoInput.value;
+        const students = getStoredStudents();
+        const student = students.find(s => s.registerNo.toUpperCase() === regNo.toUpperCase());
+        if (!student) {
+          showToast('✕ Student not found', 'error');
+          return;
+        }
+
+        const code = studentSubjectCode.value.trim().toUpperCase();
+        const name = studentSubjectName.value.trim();
+        const internal = parseFloat(studentSubjectInt.value) || 0;
+        const external = parseFloat(studentSubjectExt.value) || 0;
+        const editIdx = parseInt(studentSubjectEditIndex.value, 10);
+
+        if (!code || !name) {
+          showToast('✕ Please provide subject code and name', 'error');
+          return;
+        }
+
+        if (internal < 0 || internal > 25 || external < 0 || external > 75) {
+          showToast('✕ Invalid marks: Internal (0-25), External (0-75)', 'error');
+          return;
+        }
+
+        if (!Array.isArray(student.subjects)) student.subjects = [];
+
+        const newSubObj = {
+          code,
+          name,
+          internal,
+          external,
+          maxInternal: 25,
+          maxExternal: 75
+        };
+
+        if (editIdx >= 0 && editIdx < student.subjects.length) {
+          student.subjects[editIdx] = newSubObj;
+          showToast(`✓ Updated subject ${code} for ${student.name}`, 'success');
+        } else {
+          // Check if already exists
+          const existingIdx = student.subjects.findIndex(s => s.code.toUpperCase() === code);
+          if (existingIdx >= 0) {
+            student.subjects[existingIdx] = newSubObj;
+            showToast(`✓ Updated existing subject ${code}`, 'success');
+          } else {
+            student.subjects.push(newSubObj);
+            showToast(`✓ Assigned subject ${code} to ${student.name}`, 'success');
+          }
+        }
+
+        saveStoredStudents(students);
+        resetStudentSubjectSubForm();
+        renderManageStudentSubjectsTable(student);
+        renderStudentsTable();
+        renderDashboardOverview();
+        if (activeStudent && activeStudent.registerNo === student.registerNo) {
+          activeStudent = student;
+          renderStudentExistingSubjects(activeStudent);
+        }
+      });
+
+      // ==========================================================
+      // BATCH ASSIGN SUBJECTS TO STUDENTS CONTROLLER
+      // ==========================================================
+      const batchAssignDept = document.getElementById('batchAssignDept');
+      const batchAssignSem = document.getElementById('batchAssignSem');
+      const batchSubjectsCheckboxList = document.getElementById('batchSubjectsCheckboxList');
+      const batchSubjectCountHint = document.getElementById('batchSubjectCountHint');
+      const formBatchAssign = document.getElementById('formBatchAssign');
+
+      function openBatchAssignModal() {
+        updateBatchSubjectsList();
+        openModal('modalBatchAssign');
+      }
+
+      function updateBatchSubjectsList() {
+        if (!batchSubjectsCheckboxList) return;
+        const dept = batchAssignDept?.value || 'CSE';
+        const sem = batchAssignSem?.value || 'III';
+        const subjects = getSubjectsForDeptSem(dept, sem);
+
+        if (batchSubjectCountHint) {
+          batchSubjectCountHint.textContent = `${subjects.length} subjects configured for ${dept} Sem ${sem}`;
+        }
+
+        if (subjects.length === 0) {
+          batchSubjectsCheckboxList.innerHTML = `
+            <div style="padding: 1rem; text-align: center; color: var(--text-muted); font-size: 0.85rem;">
+              No subjects found in Subject Master for ${dept} Semester ${sem}.
+              <br/>Add some in the Subject Master first.
+            </div>
+          `;
+          return;
+        }
+
+        batchSubjectsCheckboxList.innerHTML = '';
+        subjects.forEach(sub => {
+          const label = document.createElement('label');
+          label.style.display = 'flex';
+          label.style.alignItems = 'center';
+          label.style.gap = '0.6rem';
+          label.style.padding = '0.4rem 0.2rem';
+          label.style.cursor = 'pointer';
+          label.style.fontSize = '0.85rem';
+          label.style.borderBottom = '1px solid var(--border-subtle)';
+          label.innerHTML = `
+            <input type="checkbox" name="batchSubjectCheck" value="${sub.code}" checked style="width: 16px; height: 16px; accent-color: var(--primary-600);" />
+            <span><strong style="font-family: monospace; color: var(--primary-700);">${sub.code}</strong> - ${sub.name}</span>
+          `;
+          batchSubjectsCheckboxList.appendChild(label);
+        });
+      }
+
+      batchAssignDept?.addEventListener('change', updateBatchSubjectsList);
+      batchAssignSem?.addEventListener('change', updateBatchSubjectsList);
+
+      formBatchAssign?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const dept = batchAssignDept.value;
+        const sem = batchAssignSem.value;
+        const checkedBoxes = batchSubjectsCheckboxList.querySelectorAll('input[name="batchSubjectCheck"]:checked');
+        const selectedCodes = Array.from(checkedBoxes).map(cb => cb.value);
+
+        if (selectedCodes.length === 0) {
+          showToast('✕ Please select at least one subject to assign', 'error');
+          return;
+        }
+
+        const masterSubjects = getStoredSubjects();
+        const subjectsToAssign = masterSubjects.filter(s => selectedCodes.includes(s.code));
+        const students = getStoredStudents();
+
+        let studentsUpdated = 0;
+        let totalAssignedEntries = 0;
+
+        students.forEach(st => {
+          if (st.department === dept && st.semester === sem) {
+            if (!Array.isArray(st.subjects)) st.subjects = [];
+            let modified = false;
+
+            subjectsToAssign.forEach(sub => {
+              const alreadyHas = st.subjects.some(s => s.code.toUpperCase() === sub.code.toUpperCase());
+              if (!alreadyHas) {
+                st.subjects.push({
+                  code: sub.code,
+                  name: sub.name,
+                  internal: 0,
+                  external: 0,
+                  maxInternal: sub.maxInternal || 25,
+                  maxExternal: sub.maxExternal || 75
+                });
+                modified = true;
+                totalAssignedEntries++;
+              }
+            });
+
+            if (modified) studentsUpdated++;
+          }
+        });
+
+        if (studentsUpdated > 0) {
+          saveStoredStudents(students);
+          closeModal('modalBatchAssign');
+          renderStudentsTable();
+          renderDashboardOverview();
+          showToast(`✓ Assigned subjects to ${studentsUpdated} students (${totalAssignedEntries} new assignments)`, 'success');
+        } else {
+          closeModal('modalBatchAssign');
+          showToast('ℹ All matching students already have these subjects', 'info');
+        }
+      });
+
+      // Update resetData to also refresh Subject Master
+      const originalResetData = document.getElementById('btnResetData');
+      if (originalResetData) {
+        originalResetData.addEventListener('click', () => {
+          setTimeout(() => {
+            renderSubjectsMasterTable();
+          }, 100);
+        });
+      }
+
       // Initial page render
       renderDashboardOverview();
       refreshStep1Pills();
+      renderSubjectsMasterTable();
     });
   </script>
 </body>

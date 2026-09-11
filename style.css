@@ -1366,6 +1366,16 @@ button, input, select, textarea {
   color: var(--primary-600);
 }
 
+.action-icon-btn.btn-subjects:hover {
+  color: var(--primary-600);
+  background: var(--primary-50);
+}
+
+.action-icon-btn.btn-assign:hover {
+  color: var(--success-600);
+  background: var(--success-50);
+}
+
 .action-icon-btn.btn-edit:hover {
   color: var(--warning-500);
 }

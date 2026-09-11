@@ -428,52 +428,71 @@ function getSubjectsForDeptSem(dept, sem) {
  * Optionally synchronizes changes to existing students having this subject code
  */
 function addOrUpdateSubject(subjectData, oldCode = null, syncStudents = true) {
-  let subjects = getStoredSubjects();
-  const targetCode = (oldCode || subjectData.code).toUpperCase().trim();
-  const existingIdx = subjects.findIndex(s => s.code.toUpperCase().trim() === targetCode);
+  try {
+    let subjects = getStoredSubjects();
+    const newCode = (subjectData.code || '').toUpperCase().trim();
+    const targetCode = (oldCode || newCode).toUpperCase().trim();
 
-  const newSubject = {
-    code: subjectData.code.toUpperCase().trim(),
-    name: subjectData.name.trim(),
-    department: subjectData.department || 'CSE',
-    semester: subjectData.semester || 'III',
-    maxInternal: Number(subjectData.maxInternal) || 25,
-    maxExternal: Number(subjectData.maxExternal) || 75,
-    credits: Number(subjectData.credits) || 3
-  };
-
-  if (existingIdx >= 0) {
-    subjects[existingIdx] = newSubject;
-  } else {
-    subjects.push(newSubject);
-  }
-  saveStoredSubjects(subjects);
-
-  // Sync to students if requested or if code/name changed
-  if (syncStudents) {
-    let students = getStoredStudents();
-    let updated = false;
-
-    students.forEach(student => {
-      if (Array.isArray(student.subjects)) {
-        student.subjects.forEach(sub => {
-          if (sub.code.toUpperCase().trim() === targetCode) {
-            sub.code = newSubject.code;
-            sub.name = newSubject.name;
-            sub.maxInternal = newSubject.maxInternal;
-            sub.maxExternal = newSubject.maxExternal;
-            updated = true;
-          }
-        });
-      }
-    });
-
-    if (updated) {
-      saveStoredStudents(students);
+    if (!newCode || !subjectData.name) {
+      return { success: false, message: "Subject code and name are required." };
     }
-  }
 
-  return newSubject;
+    // Check if new code conflicts with another subject
+    if (oldCode && oldCode.toUpperCase().trim() !== newCode) {
+      const conflict = subjects.find(s => s.code.toUpperCase().trim() === newCode && s.code.toUpperCase().trim() !== targetCode);
+      if (conflict) {
+        return { success: false, message: `Subject code ${newCode} already exists for ${conflict.name}.` };
+      }
+    }
+
+    const existingIdx = subjects.findIndex(s => s.code.toUpperCase().trim() === targetCode);
+
+    const newSubject = {
+      code: newCode,
+      name: subjectData.name.trim(),
+      department: subjectData.department || 'CSE',
+      semester: subjectData.semester || 'III',
+      maxInternal: Number(subjectData.maxInternal) || 25,
+      maxExternal: Number(subjectData.maxExternal) || 75,
+      credits: Number(subjectData.credits) || 3
+    };
+
+    if (existingIdx >= 0) {
+      subjects[existingIdx] = newSubject;
+    } else {
+      subjects.push(newSubject);
+    }
+    saveStoredSubjects(subjects);
+
+    // Sync to students if requested or if code/name changed
+    if (syncStudents) {
+      let students = getStoredStudents();
+      let updated = false;
+
+      students.forEach(student => {
+        if (Array.isArray(student.subjects)) {
+          student.subjects.forEach(sub => {
+            if (sub.code.toUpperCase().trim() === targetCode) {
+              sub.code = newSubject.code;
+              sub.name = newSubject.name;
+              sub.maxInternal = newSubject.maxInternal;
+              sub.maxExternal = newSubject.maxExternal;
+              updated = true;
+            }
+          });
+        }
+      });
+
+      if (updated) {
+        saveStoredStudents(students);
+      }
+    }
+
+    return { success: true, subject: newSubject };
+  } catch (err) {
+    console.error("Error updating subject:", err);
+    return { success: false, message: err.message || "Failed to update subject." };
+  }
 }
 
 /**

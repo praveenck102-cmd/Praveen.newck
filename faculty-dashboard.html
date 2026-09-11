@@ -598,9 +598,15 @@
 
               <!-- Current Subjects List of Selected Student -->
               <div style="margin-top: 2.5rem; border-top: 1px solid var(--border-subtle); padding-top: 1.5rem;">
-                <h4 style="font-size: 1.05rem; font-weight: 800; margin-bottom: 1rem; color: var(--text-main);">
-                  Existing Subjects for this Student
-                </h4>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.75rem;">
+                  <h4 style="font-size: 1.05rem; font-weight: 800; margin: 0; color: var(--text-main);">
+                    Existing Subjects for this Student
+                  </h4>
+                  <button type="button" class="btn btn-secondary btn-sm" id="btnAutoAssignStudentSemSubjects" style="display: inline-flex; align-items: center; gap: 0.4rem;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                    <span>Sync &amp; Load All Semester Subjects</span>
+                  </button>
+                </div>
                 <div class="table-container">
                   <table class="data-table">
                     <thead>
@@ -838,6 +844,89 @@
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-close="modalAddStudent">Cancel</button>
           <button type="submit" class="btn btn-primary">+ Create Student</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==========================================================
+       MODAL 1B: EDIT STUDENT DETAILS & SEMESTER
+       ========================================================== -->
+  <div class="modal-backdrop" id="modalEditStudentProfile">
+    <div class="modal-dialog" style="max-width: 600px;">
+      <div class="modal-header">
+        <div>
+          <h3>Edit Student Details &amp; Semester</h3>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;">Update student profile, change semester, or re-sync semester subjects</p>
+        </div>
+        <button type="button" class="modal-close-btn" data-close="modalEditStudentProfile">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <form id="formEditStudentProfile">
+        <input type="hidden" id="editStudentOriginalRegNo" value="" />
+        <div class="modal-body">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-group">
+              <label class="form-label" for="editStudentName">Full Name</label>
+              <input type="text" id="editStudentName" class="form-input" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="editStudentRegNo">Register Number</label>
+              <input type="text" id="editStudentRegNo" class="form-input" style="text-transform: uppercase;" required />
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-group">
+              <label class="form-label" for="editStudentDept">Department</label>
+              <select id="editStudentDept" class="form-select" required>
+                <option value="CSE">CSE - Computer Science</option>
+                <option value="ECE">ECE - Electronics & Comm</option>
+                <option value="MECH">MECH - Mechanical</option>
+                <option value="IT">IT - Information Tech</option>
+                <option value="EEE">EEE - Electrical & Electronics</option>
+                <option value="AI&DS">AI&DS - Artificial Intelligence</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="editStudentYear">Year</label>
+              <select id="editStudentYear" class="form-select" required>
+                <option value="1st Year">1st Year</option>
+                <option value="2nd Year">2nd Year</option>
+                <option value="3rd Year">3rd Year</option>
+                <option value="4th Year">4th Year</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="editStudentSem">Semester</label>
+            <select id="editStudentSem" class="form-select" required>
+              <option value="I">Semester I</option>
+              <option value="II">Semester II</option>
+              <option value="III">Semester III</option>
+              <option value="IV">Semester IV</option>
+              <option value="V">Semester V</option>
+              <option value="VI">Semester VI</option>
+              <option value="VII">Semester VII</option>
+              <option value="VIII">Semester VIII</option>
+            </select>
+          </div>
+
+          <div style="background: var(--bg-subtle); padding: 0.85rem 1rem; border-radius: var(--radius-md); border: 1px solid var(--border-subtle); margin-top: 0.5rem;">
+            <label style="display: flex; align-items: flex-start; gap: 0.6rem; cursor: pointer; font-size: 0.85rem; color: var(--text-main);">
+              <input type="checkbox" id="editStudentSyncSemSubjects" style="margin-top: 0.2rem; width: 16px; height: 16px; accent-color: var(--primary-600);" />
+              <span>
+                <strong>Auto-assign subjects for this semester</strong><br/>
+                <small style="color: var(--text-muted);">Populate this student's subjects with configured subjects from the Subject Master for the selected semester</small>
+              </span>
+            </label>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-close="modalEditStudentProfile">Cancel</button>
+          <button type="submit" class="btn btn-primary">Update Student &amp; Semester</button>
         </div>
       </form>
     </div>
@@ -1337,6 +1426,9 @@
                 <button type="button" class="action-icon-btn btn-view" title="View Marksheet" data-view-reg="${student.registerNo}">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
                 </button>
+                <button type="button" class="action-icon-btn btn-profile" title="Edit Student Profile & Semester" data-profile-reg="${student.registerNo}">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                </button>
                 <button type="button" class="action-icon-btn btn-subjects" title="Manage Student's Subjects & Codes" data-subjects-reg="${student.registerNo}">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 6h10"/><path d="M6 10h10"/></svg>
                 </button>
@@ -1358,6 +1450,13 @@
           b.addEventListener('click', () => {
             const reg = b.getAttribute('data-view-reg');
             viewStudentMarksheetModal(reg);
+          });
+        });
+
+        tbody.querySelectorAll('[data-profile-reg]').forEach(b => {
+          b.addEventListener('click', () => {
+            const reg = b.getAttribute('data-profile-reg');
+            openEditStudentProfileModal(reg);
           });
         });
 
@@ -1495,6 +1594,94 @@
           }
         );
       }
+
+      // Edit Student Profile & Semester
+      function openEditStudentProfileModal(regNo) {
+        const students = getStoredStudents();
+        const student = students.find(s => s.registerNo.toUpperCase() === regNo.toUpperCase());
+        if (!student) {
+          showToast('✕ Student not found', 'error');
+          return;
+        }
+
+        document.getElementById('editStudentOriginalRegNo').value = student.registerNo;
+        document.getElementById('editStudentName').value = student.name || '';
+        document.getElementById('editStudentRegNo').value = student.registerNo || '';
+        document.getElementById('editStudentDept').value = student.department || 'CSE';
+        document.getElementById('editStudentYear').value = student.year || '2nd Year';
+        document.getElementById('editStudentSem').value = student.semester || 'III';
+        document.getElementById('editStudentSyncSemSubjects').checked = false;
+
+        openModal('modalEditStudentProfile');
+      }
+
+      const formEditStudentProfile = document.getElementById('formEditStudentProfile');
+      formEditStudentProfile?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const origReg = document.getElementById('editStudentOriginalRegNo').value.trim();
+        const name = document.getElementById('editStudentName').value.trim();
+        const newReg = document.getElementById('editStudentRegNo').value.trim().toUpperCase();
+        const dept = document.getElementById('editStudentDept').value;
+        const year = document.getElementById('editStudentYear').value;
+        const sem = document.getElementById('editStudentSem').value;
+        const syncSubjects = document.getElementById('editStudentSyncSemSubjects')?.checked;
+
+        if (!name || !newReg) {
+          showToast('✕ Please fill in Name and Register Number', 'error');
+          return;
+        }
+
+        let students = getStoredStudents();
+        const idx = students.findIndex(s => s.registerNo.toUpperCase() === origReg.toUpperCase());
+        if (idx === -1) {
+          showToast('✕ Student not found', 'error');
+          return;
+        }
+
+        // Check if register number changed and already exists on another student
+        if (newReg !== origReg.toUpperCase() && students.some(s => s.registerNo.toUpperCase() === newReg)) {
+          showToast('✕ Register Number already assigned to another student', 'error');
+          return;
+        }
+
+        students[idx].name = name;
+        students[idx].registerNo = newReg;
+        students[idx].department = dept;
+        students[idx].year = year;
+        students[idx].semester = sem;
+
+        if (syncSubjects) {
+          const configuredSubs = getSubjectsForDeptSem(dept, sem);
+          if (configuredSubs.length > 0) {
+            const oldSubjects = students[idx].subjects || [];
+            students[idx].subjects = configuredSubs.map(cs => {
+              const old = oldSubjects.find(o => o.code.toUpperCase().trim() === cs.code.toUpperCase().trim());
+              return {
+                code: cs.code,
+                name: cs.name,
+                internal: old ? old.internal : 0,
+                external: old ? old.external : 0,
+                maxInternal: cs.maxInternal || 25,
+                maxExternal: cs.maxExternal || 75
+              };
+            });
+          }
+        }
+
+        saveStoredStudents(students);
+        closeModal('modalEditStudentProfile');
+        showToast(`✓ Updated profile for ${name} (${sem})`, 'success');
+        renderStudentsTable();
+        renderDashboardOverview();
+
+        if (activeStudent && activeStudent.registerNo.toUpperCase() === origReg.toUpperCase()) {
+          activeStudent = students[idx];
+          document.getElementById('activeStudentDisplayName').textContent = activeStudent.name;
+          document.getElementById('activeStudentMeta').textContent = 
+            `${activeStudent.registerNo} • ${activeStudent.department} • ${activeStudent.year} • Semester ${activeStudent.semester}`;
+          renderStudentExistingSubjects(activeStudent);
+        }
+      });
 
       // ==========================================================
       // ENTER MARKS CONTROLLER (STEP 1 & STEP 2)
@@ -1810,6 +1997,57 @@
           });
         });
       }
+
+      document.getElementById('btnAutoAssignStudentSemSubjects')?.addEventListener('click', () => {
+        if (!activeStudent) {
+          showToast('✕ Please select a student first', 'error');
+          return;
+        }
+
+        const dept = activeStudent.department;
+        const sem = activeStudent.semester;
+        const configuredSubs = getSubjectsForDeptSem(dept, sem);
+
+        if (configuredSubs.length === 0) {
+          showToast(`✕ No subjects configured in Master List for ${dept} - Semester ${sem}. Please configure them in Subject Master.`, 'warning');
+          return;
+        }
+
+        let students = getStoredStudents();
+        const sIdx = students.findIndex(s => s.registerNo.toUpperCase() === activeStudent.registerNo.toUpperCase());
+        if (sIdx === -1) return;
+
+        const currentSubs = students[sIdx].subjects || [];
+        let addedCount = 0;
+
+        configuredSubs.forEach(cs => {
+          const exists = currentSubs.find(s => s.code.toUpperCase().trim() === cs.code.toUpperCase().trim());
+          if (!exists) {
+            currentSubs.push({
+              code: cs.code,
+              name: cs.name,
+              internal: 0,
+              external: 0,
+              maxInternal: cs.maxInternal || 25,
+              maxExternal: cs.maxExternal || 75
+            });
+            addedCount++;
+          }
+        });
+
+        students[sIdx].subjects = currentSubs;
+        saveStoredStudents(students);
+        activeStudent = students[sIdx];
+        renderStudentExistingSubjects(activeStudent);
+        renderStudentsTable();
+        renderDashboardOverview();
+
+        if (addedCount > 0) {
+          showToast(`✓ Added ${addedCount} Semester ${sem} subject(s) for ${activeStudent.name}`, 'success');
+        } else {
+          showToast(`All Semester ${sem} subjects are already assigned to this student`, 'info');
+        }
+      });
 
       // ==========================================================
       // RESULTS VIEW (BATCH PREVIEW & PRINT)
@@ -2281,14 +2519,22 @@
         };
 
         const result = addOrUpdateSubject(subjectData, originalCode, syncStudents);
-        if (result.success) {
+        if (result && result.success) {
           showToast(originalCode ? `✓ Subject ${code} updated successfully` : `✓ Subject ${code} added to Master List`, 'success');
           closeModal('modalAddEditSubject');
           renderSubjectsMasterTable();
           renderStudentsTable();
           renderDashboardOverview();
+          if (activeStudent) {
+            const students = getStoredStudents();
+            const refreshed = students.find(s => s.registerNo.toUpperCase() === activeStudent.registerNo.toUpperCase());
+            if (refreshed) {
+              activeStudent = refreshed;
+              renderStudentExistingSubjects(activeStudent);
+            }
+          }
         } else {
-          showToast(`✕ ${result.message}`, 'error');
+          showToast(`✕ ${result ? result.message : 'Failed to save subject'}`, 'error');
         }
       });
 

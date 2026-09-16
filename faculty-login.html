@@ -56,15 +56,6 @@
         <p>Access the Result Management Dashboard</p>
       </div>
 
-      <!-- Demo Credentials Quick-Fill Helper -->
-      <div class="demo-credentials-box" id="demoCredentialsHelper">
-        <div class="demo-credentials-header">
-          <span>Demo Credentials</span>
-          <button type="button" class="demo-fill-btn" id="btnPrefillDemo">Auto Fill</button>
-        </div>
-        <div>Login ID: <strong>result.com</strong> &bull; Password: <strong>ckcet</strong></div>
-      </div>
-
       <!-- Error Alert Box -->
       <div id="loginErrorAlert" style="display: none; background: var(--danger-50); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: var(--radius-md); padding: 0.75rem 1rem; margin-bottom: 1.25rem; color: var(--danger-700); font-size: 0.85rem; font-weight: 500;">
         <div style="display: flex; align-items: center; gap: 0.5rem;">
@@ -163,7 +154,6 @@
       const loginIdInput = document.getElementById('facultyLoginId');
       const passwordInput = document.getElementById('facultyPassword');
       const togglePasswordBtn = document.getElementById('btnTogglePassword');
-      const prefillDemoBtn = document.getElementById('btnPrefillDemo');
       const rememberCheckbox = document.getElementById('rememberLoginCheckbox');
       const submitBtn = document.getElementById('btnSubmitLogin');
       const btnText = document.getElementById('loginBtnText');
@@ -177,14 +167,6 @@
         loginIdInput.value = savedLogin;
       }
 
-      // Quick Prefill Demo Credentials
-      prefillDemoBtn.addEventListener('click', () => {
-        loginIdInput.value = 'result.com';
-        passwordInput.value = 'ckcet';
-        errorAlert.style.display = 'none';
-        showToast('Demo credentials populated', 'info');
-      });
-
       // Show / Hide Password Toggle
       togglePasswordBtn.addEventListener('click', () => {
         const isPassword = passwordInput.type === 'password';
@@ -197,7 +179,7 @@
       // Forgot help link
       document.getElementById('forgotHelpLink').addEventListener('click', (e) => {
         e.preventDefault();
-        showToast('Use demo credentials: Login ID: result.com, Password: ckcet', 'info');
+        showToast('Please contact the examination cell or institutional administrator.', 'info');
       });
 
       // Form Submit
@@ -221,7 +203,7 @@
         btnSpinner.style.display = 'inline-block';
 
         setTimeout(() => {
-          // Demo Credentials verification
+          // Credentials verification
           if (id === 'result.com' && pwd === 'ckcet') {
             if (rememberCheckbox.checked) {
               localStorage.setItem('ckcet_remembered_faculty', id);
@@ -246,7 +228,7 @@
             btnText.style.display = 'inline';
             btnSpinner.style.display = 'none';
 
-            errorMsgText.textContent = '✕ Invalid Login ID or Password. Check demo credentials.';
+            errorMsgText.textContent = '✕ Invalid Login ID or Password.';
             errorAlert.style.display = 'block';
             showToast('✕ Login failed: Invalid credentials', 'error');
           }

@@ -1,248 +1,959 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CK College of Engineering and Technology - Smart Result Portal</title>
-  <meta name="description" content="Official Smart Result Portal for CK College of Engineering and Technology (CKCET) with faculty marks entry, student results, and academic performance analytics." />
-  <meta property="og:title" content="CK College of Engineering and Technology - Smart Result Portal" />
-  <meta property="og:description" content="Official Smart Result Portal for CK College of Engineering and Technology (CKCET) with faculty marks entry, student results, and academic performance analytics." />
-  <link rel="stylesheet" href="./style.css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>CK College of Engineering and Technology - Smart Result Portal</title>
+<meta name="description" content="Official Smart Result Portal for CK College of Engineering and Technology (CKCET) with faculty marks entry, student results, and academic performance analytics." />
+<meta property="og:title" content="CK College of Engineering and Technology - Smart Result Portal" />
+<meta property="og:description" content="Official Smart Result Portal for CK College of Engineering and Technology (CKCET) with faculty marks entry, student results, and academic performance analytics." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Inter,sans-serif;
+    background:
+        radial-gradient(circle at 10% 10%,rgba(37,99,235,.12),transparent 28%),
+        radial-gradient(circle at 90% 20%,rgba(139,92,246,.13),transparent 28%),
+        linear-gradient(135deg,#f8fbff,#eef5ff);
+    color:#0f172a;
+    min-height:100vh;
+    overflow-x:hidden;
+    transition:background-color .3s ease, color .3s ease;
+}
+
+/* Background animation */
+
+.bg-circle{
+    position:fixed;
+    border-radius:50%;
+    filter:blur(2px);
+    opacity:.35;
+    pointer-events:none;
+    z-index:-1;
+    animation:float 8s ease-in-out infinite;
+}
+
+.circle1{
+    width:220px;
+    height:220px;
+    background:linear-gradient(135deg,#38bdf8,#6366f1);
+    top:100px;
+    left:-100px;
+}
+
+.circle2{
+    width:280px;
+    height:280px;
+    background:linear-gradient(135deg,#a855f7,#ec4899);
+    right:-120px;
+    top:350px;
+    animation-delay:2s;
+}
+
+.circle3{
+    width:180px;
+    height:180px;
+    background:linear-gradient(135deg,#06b6d4,#3b82f6);
+    bottom:50px;
+    left:35%;
+    animation-delay:4s;
+}
+
+@keyframes float{
+    0%,100%{
+        transform:translateY(0) translateX(0);
+    }
+    50%{
+        transform:translateY(-25px) translateX(15px);
+    }
+}
+
+/* Navbar */
+
+.navbar{
+    height:72px;
+    background:rgba(255,255,255,.78);
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+    border-bottom:1px solid rgba(148,163,184,.2);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 5%;
+    position:sticky;
+    top:0;
+    z-index:100;
+    box-shadow:0 5px 25px rgba(15,23,42,.06);
+    transition:background .3s ease, border-color .3s ease;
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    text-decoration:none;
+    color:inherit;
+}
+
+.logo{
+    width:42px;
+    height:42px;
+    border-radius:12px;
+    background:linear-gradient(135deg,#2563eb,#7c3aed);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:white;
+    font-weight:800;
+    box-shadow:0 8px 20px rgba(37,99,235,.3);
+}
+
+.brand-text h3{
+    font-size:15px;
+    font-weight:800;
+}
+
+.brand-text p{
+    font-size:9px;
+    color:#64748b;
+    margin-top:2px;
+}
+
+.theme{
+    width:40px;
+    height:40px;
+    border-radius:12px;
+    border:1px solid #dbeafe;
+    background:white;
+    cursor:pointer;
+    font-size:18px;
+    transition:.3s;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.theme:hover{
+    transform:rotate(20deg) scale(1.08);
+    box-shadow:0 5px 20px rgba(37,99,235,.2);
+}
+
+/* Hero */
+
+.hero{
+    text-align:center;
+    padding:70px 20px 45px;
+    max-width:1000px;
+    margin:auto;
+    animation:fadeUp .8s ease;
+}
+
+.badge{
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    padding:8px 16px;
+    border-radius:30px;
+    background:rgba(255,255,255,.8);
+    border:1px solid #dbeafe;
+    color:#315b9b;
+    font-size:12px;
+    font-weight:600;
+    box-shadow:0 5px 20px rgba(37,99,235,.08);
+}
+
+.hero h1{
+    font-family:Poppins,sans-serif;
+    font-size:clamp(38px,6vw,68px);
+    line-height:1.08;
+    margin:22px 0 18px;
+    letter-spacing:-2.5px;
+}
+
+.gradient-text{
+    background:linear-gradient(
+        90deg,
+        #2563eb,
+        #06b6d4,
+        #7c3aed,
+        #ec4899,
+        #2563eb
+    );
+    background-size:300%;
+    -webkit-background-clip:text;
+    color:transparent;
+    animation:gradient 5s linear infinite;
+}
+
+@keyframes gradient{
+    0%{background-position:0%}
+    100%{background-position:300%}
+}
+
+.hero p{
+    max-width:720px;
+    margin:auto;
+    color:#64748b;
+    font-size:15px;
+    line-height:1.8;
+}
+
+/* Portal */
+
+.portal-container{
+    max-width:1100px;
+    margin:25px auto 80px;
+    padding:0 25px;
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:25px;
+}
+
+.portal{
+    background:rgba(255,255,255,.86);
+    backdrop-filter:blur(15px);
+    -webkit-backdrop-filter:blur(15px);
+    border:1px solid rgba(148,163,184,.22);
+    border-radius:25px;
+    padding:30px;
+    position:relative;
+    overflow:hidden;
+    box-shadow:0 15px 40px rgba(15,23,42,.08);
+    transition:.45s cubic-bezier(.2,.8,.2,1);
+    animation:fadeUp .8s ease both;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+}
+
+.portal:nth-child(2){
+    animation-delay:.15s;
+}
+
+.portal:hover{
+    transform:translateY(-10px);
+    box-shadow:
+        0 25px 60px rgba(37,99,235,.16),
+        0 0 0 1px rgba(99,102,241,.1);
+}
+
+.portal::before{
+    content:"";
+    position:absolute;
+    width:180px;
+    height:180px;
+    border-radius:50%;
+    background:linear-gradient(135deg,#dbeafe,#ede9fe);
+    right:-80px;
+    top:-80px;
+    opacity:.7;
+}
+
+.portal-icon{
+    width:52px;
+    height:52px;
+    border-radius:15px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:24px;
+    background:linear-gradient(135deg,#dbeafe,#ede9fe);
+    border:1px solid #bfdbfe;
+    margin-bottom:18px;
+    position:relative;
+}
+
+.portal small{
+    color:#2563eb;
+    font-weight:800;
+    font-size:10px;
+    letter-spacing:.5px;
+}
+
+.portal h2{
+    font-family:Poppins,sans-serif;
+    margin:6px 0 12px;
+    font-size:22px;
+}
+
+.portal p{
+    color:#64748b;
+    line-height:1.65;
+    font-size:13px;
+}
+
+.features-list{
+    margin:20px 0;
+    border-top:1px dashed #dbe3ee;
+    padding-top:15px;
+}
+
+.features-list div{
+    font-size:12px;
+    color:#64748b;
+    margin:9px 0;
+}
+
+.features-list span{
+    color:#10b981;
+    font-weight:bold;
+    margin-right:7px;
+}
+
+/* Button */
+
+.login-btn{
+    width:100%;
+    border:none;
+    padding:15px;
+    border-radius:12px;
+    color:white;
+    font-size:13px;
+    font-weight:700;
+    cursor:pointer;
+    position:relative;
+    overflow:hidden;
+    background:linear-gradient(
+        100deg,
+        #2563eb,
+        #4f46e5,
+        #7c3aed,
+        #2563eb
+    );
+    background-size:300% 100%;
+    animation:buttonGradient 5s linear infinite;
+    box-shadow:0 8px 20px rgba(37,99,235,.3);
+    transition:.3s;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-decoration:none;
+}
+
+@keyframes buttonGradient{
+    0%{background-position:0%}
+    100%{background-position:300%}
+}
+
+.login-btn:hover{
+    transform:translateY(-3px) scale(1.015);
+    box-shadow:
+        0 12px 30px rgba(79,70,229,.4),
+        0 0 25px rgba(99,102,241,.2);
+}
+
+.login-btn:active{
+    transform:scale(.97);
+}
+
+.login-btn::after{
+    content:"";
+    position:absolute;
+    top:0;
+    left:-100%;
+    width:45%;
+    height:100%;
+    background:linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,.5),
+        transparent
+    );
+    transform:skewX(-20deg);
+    animation:shine 3.5s infinite;
+}
+
+@keyframes shine{
+    0%{left:-100%}
+    35%,100%{left:140%}
+}
+
+.arrow{
+    margin-left:8px;
+    transition:.3s;
+}
+
+.login-btn:hover .arrow{
+    transform:translateX(5px);
+}
+
+/* Section title */
+
+.section-title{
+    text-align:center;
+    margin-bottom:30px;
+}
+
+.section-title small{
+    color:#2563eb;
+    font-size:10px;
+    font-weight:800;
+    letter-spacing:1px;
+}
+
+.section-title h2{
+    font-family:Poppins,sans-serif;
+    font-size:28px;
+    margin-top:5px;
+}
+
+/* Smart Features */
+
+.features{
+    max-width:1100px;
+    margin:auto;
+    padding:0 25px 80px;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:18px;
+}
+
+.feature{
+    background:rgba(255,255,255,.9);
+    border:1px solid #e2e8f0;
+    border-radius:18px;
+    padding:22px;
+    transition:.4s;
+    box-shadow:0 8px 25px rgba(15,23,42,.04);
+}
+
+.feature:hover{
+    transform:translateY(-7px);
+    border-color:#bfdbfe;
+    box-shadow:0 18px 40px rgba(37,99,235,.12);
+}
+
+.feature-icon{
+    width:42px;
+    height:42px;
+    border-radius:12px;
+    background:linear-gradient(135deg,#dbeafe,#ede9fe);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:19px;
+    margin-bottom:14px;
+    transition:.4s;
+}
+
+.feature:hover .feature-icon{
+    transform:rotate(-8deg) scale(1.12);
+    box-shadow:0 8px 20px rgba(99,102,241,.2);
+}
+
+.feature h3{
+    font-size:14px;
+    margin-bottom:7px;
+}
+
+.feature p{
+    color:#64748b;
+    font-size:11px;
+    line-height:1.65;
+}
+
+/* Footer */
+
+footer{
+    text-align:center;
+    padding:25px;
+    border-top:1px solid #e2e8f0;
+    color:#94a3b8;
+    font-size:11px;
+}
+
+/* Dark Mode Overrides */
+body.dark {
+    background:
+        radial-gradient(circle at 10% 10%,rgba(37,99,235,.15),transparent 28%),
+        radial-gradient(circle at 90% 20%,rgba(139,92,246,.15),transparent 28%),
+        linear-gradient(135deg,#090d16,#0f172a);
+    color:#f8fafc;
+}
+
+body.dark .navbar {
+    background:rgba(15,23,42,.85);
+    border-bottom-color:rgba(51,65,85,.3);
+    box-shadow:0 5px 25px rgba(0,0,0,.3);
+}
+
+body.dark .brand-text h3 {
+    color:#f8fafc;
+}
+
+body.dark .brand-text p {
+    color:#94a3b8;
+}
+
+body.dark .theme {
+    background:#1e293b;
+    border-color:#334155;
+    color:#f8fafc;
+}
+
+body.dark .badge {
+    background:rgba(30,41,59,.8);
+    border-color:#334155;
+    color:#93c5fd;
+}
+
+body.dark .hero h1 {
+    color:#f8fafc;
+}
+
+body.dark .hero p {
+    color:#94a3b8;
+}
+
+body.dark .portal {
+    background:rgba(30,41,59,.75);
+    border-color:rgba(51,65,85,.4);
+    box-shadow:0 15px 40px rgba(0,0,0,.25);
+}
+
+body.dark .portal h2 {
+    color:#f8fafc;
+}
+
+body.dark .portal p {
+    color:#94a3b8;
+}
+
+body.dark .portal-icon {
+    background:linear-gradient(135deg,#1e293b,#334155);
+    border-color:#475569;
+}
+
+body.dark .features-list {
+    border-top-color:rgba(51,65,85,.4);
+}
+
+body.dark .features-list div {
+    color:#cbd5e1;
+}
+
+body.dark .section-title h2 {
+    color:#f8fafc;
+}
+
+body.dark .feature {
+    background:rgba(30,41,59,.75);
+    border-color:rgba(51,65,85,.4);
+    box-shadow:0 8px 25px rgba(0,0,0,.2);
+}
+
+body.dark .feature h3 {
+    color:#f8fafc;
+}
+
+body.dark .feature p {
+    color:#94a3b8;
+}
+
+body.dark .feature-icon {
+    background:linear-gradient(135deg,#1e293b,#334155);
+}
+
+body.dark footer {
+    border-top-color:rgba(51,65,85,.4);
+    color:#64748b;
+}
+
+/* Animation */
+
+@keyframes fadeUp{
+    from{
+        opacity:0;
+        transform:translateY(25px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+/* Mobile */
+
+@media(max-width:800px){
+
+    .navbar{
+        padding:0 18px;
+    }
+
+    .brand-text h3{
+        font-size:13px;
+    }
+
+    .hero{
+        padding-top:50px;
+    }
+
+    .hero h1{
+        font-size:39px;
+        letter-spacing:-1.5px;
+    }
+
+    .hero p{
+        font-size:13px;
+    }
+
+    .portal-container{
+        grid-template-columns:1fr;
+        margin-bottom:60px;
+    }
+
+    .features{
+        grid-template-columns:1fr;
+    }
+
+    .portal{
+        padding:25px;
+    }
+}
+
+@media(max-width:450px){
+
+    .hero h1{
+        font-size:34px;
+    }
+
+    .portal-container{
+        padding:0 16px;
+    }
+
+    .features{
+        padding:0 16px 60px;
+    }
+
+    .brand-text p{
+        display:none;
+    }
+}
+
+/* Reduced motion */
+
+@media(prefers-reduced-motion:reduce){
+    *,
+    *::before,
+    *::after{
+        animation:none!important;
+        transition:none!important;
+    }
+}
+</style>
 </head>
-<body class="landing-body">
-  <!-- Header / Navigation -->
-  <header class="landing-header" id="mainHeader">
-    <div class="landing-nav-content">
-      <a href="./index.html" class="brand-logo-lockup" id="brandLogo">
-        <div class="logo-badge">
-          <!-- Graduation Cap Icon -->
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
-            <path d="M6 12v5c3 3 9 3 12 0v-5"/>
-          </svg>
-        </div>
-        <div class="logo-text-wrap">
-          <h1>CKCET</h1>
-          <p>CK College of Engineering and Technology</p>
-        </div>
-      </a>
 
-      <div class="header-actions">
-        <button class="theme-toggle-btn" id="themeToggleBtn" aria-label="Toggle theme">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
-          </svg>
-        </button>
-      </div>
+<body>
+
+<div class="bg-circle circle1"></div>
+<div class="bg-circle circle2"></div>
+<div class="bg-circle circle3"></div>
+
+<!-- Navbar -->
+
+<header class="navbar" id="mainNavbar">
+
+    <a href="./index.html" class="brand" id="brandLink">
+
+        <div class="logo">
+            🎓
+        </div>
+
+        <div class="brand-text">
+            <h3>CKCET</h3>
+            <p>CK COLLEGE OF ENGINEERING AND TECHNOLOGY</p>
+        </div>
+
+    </a>
+
+    <button class="theme" id="themeToggleBtn" onclick="toggleTheme()" aria-label="Toggle Theme">☾</button>
+
+</header>
+
+
+<!-- Hero -->
+
+<section class="hero" id="heroSection">
+
+    <div class="badge" id="heroBadge">
+        ✦ CK College of Engineering and Technology
     </div>
-  </header>
 
-  <!-- Hero Section -->
-  <main>
-    <section class="hero-section" id="heroSection">
-      <div class="hero-pill-badge" id="heroBadge">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/>
-        </svg>
-        CK College of Engineering and Technology
-      </div>
+    <h1 id="heroHeadline">
+        Your Academic Results,<br>
+        <span class="gradient-text">
+            Smarter & Simpler.
+        </span>
+    </h1>
 
-      <h1 class="hero-title" id="heroHeading">
-        Your Academic Results,<br />
-        <span class="highlight">Smarter & Simpler.</span>
-      </h1>
+    <p id="heroDescription">
+        Secure result management for faculty and students of
+        CK College of Engineering and Technology (CKCET).
+        Instant grade calculations, comprehensive performance
+        insights, and printable marksheet certificates.
+    </p>
 
-      <p class="hero-subtitle" id="heroSubtitle">
-        Secure result management for faculty and students of CK College of Engineering and Technology (CKCET). Instant grade calculations, comprehensive performance insights, and tamper-proof printable marksheet certificates.
-      </p>
+</section>
 
-      <!-- Two Large Interactive Portal Cards -->
-      <div class="portal-cards-grid" id="portalCardsContainer">
-        <!-- Card 1: Faculty Portal -->
-        <div class="portal-card" id="cardFacultyPortal">
-          <div>
-            <div class="portal-card-header">
-              <div class="portal-icon-wrapper">
-                <!-- Teacher / Shield SVG Icon -->
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
-                  <circle cx="9" cy="7" r="4"/>
-                  <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
-                  <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-                </svg>
-              </div>
-              <div>
-                <span class="portal-tag">Faculty & Administration</span>
-                <h3>FACULTY PORTAL</h3>
-              </div>
+
+<!-- Portal Cards -->
+
+<section class="portal-container" id="portalContainer">
+
+    <!-- Faculty -->
+
+    <div class="portal" id="portalFaculty">
+
+        <div>
+            <div class="portal-icon">
+                👥
             </div>
-            <p>Enter and manage student marks, calculate grades automatically, filter departments, and view comprehensive institutional statistics.</p>
-            
-            <div class="portal-card-meta">
-              <div class="portal-meta-item">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                <span>Automated step-by-step marks entry</span>
-              </div>
-              <div class="portal-meta-item">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                <span>Student records and search management</span>
-              </div>
-              <div class="portal-meta-item">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                <span>Real-time pass/fail metrics</span>
-              </div>
-            </div>
-          </div>
 
-          <a href="./faculty-login.html" class="btn btn-primary btn-block" id="btnFacultyLogin">
+            <small>FACULTY & ADMINISTRATION</small>
+
+            <h2>FACULTY PORTAL</h2>
+
+            <p>
+                Enter and manage student marks, calculate grades
+                automatically, filter departments, and view
+                comprehensive institutional statistics.
+            </p>
+
+            <div class="features-list">
+
+                <div>
+                    <span>✓</span>
+                    Automated step-by-step marks entry
+                </div>
+
+                <div>
+                    <span>✓</span>
+                    Student records and search management
+                </div>
+
+                <div>
+                    <span>✓</span>
+                    Real-time pass/fail metrics
+                </div>
+
+            </div>
+        </div>
+
+        <button class="login-btn" id="btnFacultyLogin" onclick="facultyLogin()">
             Faculty Login
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
-            </svg>
-          </a>
-        </div>
+            <span class="arrow">→</span>
+        </button>
 
-        <!-- Card 2: Student Portal -->
-        <div class="portal-card" id="cardStudentPortal">
-          <div>
-            <div class="portal-card-header">
-              <div class="portal-icon-wrapper">
-                <!-- Academic / Student SVG Icon -->
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/>
-                  <path d="M6 6h10"/>
-                  <path d="M6 10h10"/>
-                </svg>
-              </div>
-              <div>
-                <span class="portal-tag">Students & Scholars</span>
-                <h3>STUDENT PORTAL</h3>
-              </div>
-            </div>
-            <p>View your academic results, subject-wise breakdown, semester grades, and intelligent performance analytics.</p>
-            
-            <div class="portal-card-meta">
-              <div class="portal-meta-item">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                <span>Instant marksheet certificate view</span>
-              </div>
-              <div class="portal-meta-item">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                <span>Intelligent subject analytics</span>
-              </div>
-              <div class="portal-meta-item">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                <span>Clean print & download options</span>
-              </div>
-            </div>
-          </div>
-
-          <a href="./student-login.html" class="btn btn-primary btn-block" id="btnStudentLogin">
-            Student Login
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
-            </svg>
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <!-- SMART FEATURES SECTION -->
-    <section class="features-section" id="smartFeaturesSection">
-      <div class="features-header">
-        <div class="section-label">Intelligent Architecture</div>
-        <h2>SMART FEATURES</h2>
-      </div>
-
-      <div class="features-grid">
-        <div class="feature-item-card" id="featInstantCalc">
-          <div class="feature-icon-box">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" x2="16" y1="6" y2="6"/><line x1="16" x2="16" y1="14" y2="18"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/><path d="M12 14h.01"/><path d="M8 14h.01"/><path d="M12 18h.01"/><path d="M8 18h.01"/>
-            </svg>
-          </div>
-          <div class="feature-text">
-            <h4>Instant Result Calculation</h4>
-            <p>Real-time calculation of Internal, External, and Total marks with strict range boundaries.</p>
-          </div>
-        </div>
-
-        <div class="feature-item-card" id="featIntelligentGrade">
-          <div class="feature-icon-box">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/>
-            </svg>
-          </div>
-          <div class="feature-text">
-            <h4>Intelligent Grade Calculation</h4>
-            <p>Standardized letter grades from O (Outstanding) down to F with automatic Pass/Fail determination.</p>
-          </div>
-        </div>
-
-        <div class="feature-item-card" id="featStudentSearch">
-          <div class="feature-icon-box">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
-            </svg>
-          </div>
-          <div class="feature-text">
-            <h4>Student Search</h4>
-            <p>Fast live search by Name or Register Number with dynamic debounce and empty-state fallbacks.</p>
-          </div>
-        </div>
-
-        <div class="feature-item-card" id="featPerformanceAnalytics">
-          <div class="feature-icon-box">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <line x1="18" x2="18" y1="20" y2="10"/><line x1="12" x2="12" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="14"/>
-            </svg>
-          </div>
-          <div class="feature-text">
-            <h4>Performance Analytics</h4>
-            <p>Calculates strongest subject, areas requiring study, class averages, and percentage progression.</p>
-          </div>
-        </div>
-
-        <div class="feature-item-card" id="featPrintableResults">
-          <div class="feature-icon-box">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect width="12" height="8" x="6" y="14"/>
-            </svg>
-          </div>
-          <div class="feature-text">
-            <h4>Printable Results</h4>
-            <p>Official print-ready layout with university crest, metadata headers, and signature sections.</p>
-          </div>
-        </div>
-
-        <div class="feature-item-card" id="featResponsiveDesign">
-          <div class="feature-icon-box">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/>
-            </svg>
-          </div>
-          <div class="feature-text">
-            <h4>Responsive Design</h4>
-            <p>Seamlessly optimized for desktop workstations, tablets, and mobile devices with card-table views.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <!-- Footer -->
-  <footer class="portal-footer" id="mainFooter">
-    <div class="footer-inner">
-      <div>
-        <strong>CK College of Engineering and Technology (CKCET)</strong> &copy; 2026. Smart Result Portal.
-      </div>
-      <div>
-        Designed for Excellence in Academic Records Management.
-      </div>
     </div>
-  </footer>
 
-  <script src="./data.js"></script>
-  <script src="./script.js"></script>
+
+    <!-- Student -->
+
+    <div class="portal" id="portalStudent">
+
+        <div>
+            <div class="portal-icon">
+                📋
+            </div>
+
+            <small>STUDENTS & SCHOLARS</small>
+
+            <h2>STUDENT PORTAL</h2>
+
+            <p>
+                View your academic results, subject-wise breakdown,
+                semester grades, and intelligent performance analytics.
+            </p>
+
+            <div class="features-list">
+
+                <div>
+                    <span>✓</span>
+                    Instant marksheet certificate view
+                </div>
+
+                <div>
+                    <span>✓</span>
+                    Intelligent subject analytics
+                </div>
+
+                <div>
+                    <span>✓</span>
+                    Clean print & download options
+                </div>
+
+            </div>
+        </div>
+
+        <button class="login-btn" id="btnStudentLogin" onclick="studentLogin()">
+            Student Login
+            <span class="arrow">→</span>
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- Smart Features -->
+
+<div class="section-title">
+
+    <small>INTELLIGENT ARCHITECTURE</small>
+
+    <h2>SMART FEATURES</h2>
+
+</div>
+
+
+<section class="features" id="featuresGrid">
+
+    <div class="feature" id="featInstantCalc">
+
+        <div class="feature-icon">🧾</div>
+
+        <h3>Instant Result Calculation</h3>
+
+        <p>
+            Real-time calculation of Internal,
+            External, and Total marks with strict
+            range boundaries.
+        </p>
+
+    </div>
+
+
+    <div class="feature" id="featIntelligentGrade">
+
+        <div class="feature-icon">🏅</div>
+
+        <h3>Intelligent Grade Calculation</h3>
+
+        <p>
+            Standardized letter grades from O
+            down to F with automatic Pass/Fail
+            determination.
+        </p>
+
+    </div>
+
+
+    <div class="feature" id="featStudentSearch">
+
+        <div class="feature-icon">🔍</div>
+
+        <h3>Student Search</h3>
+
+        <p>
+            Fast live search by Name or Register
+            Number with dynamic debounce.
+        </p>
+
+    </div>
+
+
+    <div class="feature" id="featPerformanceAnalytics">
+
+        <div class="feature-icon">📊</div>
+
+        <h3>Performance Analytics</h3>
+
+        <p>
+            Calculates strongest subjects, areas
+            requiring study, class averages, and
+            percentage progression.
+        </p>
+
+    </div>
+
+
+    <div class="feature" id="featPrintableResults">
+
+        <div class="feature-icon">🖨️</div>
+
+        <h3>Printable Results</h3>
+
+        <p>
+            Official print-ready layout with
+            university crest, metadata headers,
+            and signature sections.
+        </p>
+
+    </div>
+
+
+    <div class="feature" id="featResponsiveDesign">
+
+        <div class="feature-icon">📱</div>
+
+        <h3>Responsive Design</h3>
+
+        <p>
+            Seamlessly optimized for desktop
+            workstations, tablets, and mobile
+            devices.
+        </p>
+
+    </div>
+
+</section>
+
+
+<footer id="mainFooter">
+    © 2026 CK College of Engineering and Technology · Academic Result Management System
+</footer>
+
+<script src="./data.js"></script>
+<script>
+
+function facultyLogin(){
+    window.location.href = "faculty-login.html";
+}
+
+function studentLogin(){
+    window.location.href = "student-login.html";
+}
+
+function toggleTheme(){
+    document.body.classList.toggle("dark");
+    const isDark = document.body.classList.contains("dark");
+    document.documentElement.setAttribute("data-theme", isDark ? "dark" : "light");
+    localStorage.setItem("ckcet_theme", isDark ? "dark" : "light");
+
+    const button = document.querySelector(".theme");
+    if(button){
+        button.innerHTML = isDark ? "☀" : "☾";
+    }
+}
+
+// Initialize theme state on DOM load
+window.addEventListener('DOMContentLoaded', () => {
+    const saved = localStorage.getItem("ckcet_theme") || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    if(saved === 'dark'){
+        document.body.classList.add("dark");
+        document.documentElement.setAttribute("data-theme", "dark");
+        const button = document.querySelector(".theme");
+        if(button) button.innerHTML = "☀";
+    } else {
+        document.body.classList.remove("dark");
+        document.documentElement.setAttribute("data-theme", "light");
+        const button = document.querySelector(".theme");
+        if(button) button.innerHTML = "☾";
+    }
+});
+
+</script>
+
 </body>
 </html>

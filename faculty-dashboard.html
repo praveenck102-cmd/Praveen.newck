@@ -707,7 +707,7 @@
           <div class="section-header-row">
             <div class="section-title-wrap">
               <h2>Portal Settings & Database Configuration</h2>
-              <p>Grading criteria, demo data management, and storage controls</p>
+              <p>Grading criteria, institutional database management, and storage controls</p>
             </div>
           </div>
 
@@ -737,11 +737,11 @@
               </div>
             </div>
 
-            <!-- LocalStorage & Demo Data Control -->
+            <!-- LocalStorage & Database Control -->
             <div class="analytics-card">
               <h3>Data Persistence Control</h3>
               <p style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 1.25rem;">
-                All edits (adding students, modifying marks, deleting records) are safely persisted in your browser's LocalStorage. You can reset anytime back to default seed data.
+                All edits (adding students, modifying marks, deleting records) are safely persisted in your browser's LocalStorage. You can reset anytime back to initial seed data.
               </p>
 
               <div style="display: flex; flex-direction: column; gap: 0.85rem;">
@@ -752,7 +752,7 @@
 
                 <button type="button" class="btn btn-danger" id="btnResetData">
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
-                  Reset to Demo Seed Data
+                  Reset to Initial Seed Data
                 </button>
               </div>
             </div>
@@ -2275,11 +2275,11 @@
 
       document.getElementById('btnResetData').addEventListener('click', () => {
         confirmDialog(
-          'Reset to Demo Data',
-          'This will reset all student marks and records to the original demo seed dataset. Proceed?',
+          'Reset to Initial Seed Data',
+          'This will reset all student marks and records to the default institutional dataset. Proceed?',
           () => {
             resetDataToDefault();
-            showToast('✓ Demo data restored successfully', 'success');
+            showToast('✓ Default dataset restored successfully', 'success');
             renderDashboardOverview();
             renderStudentsTable();
             refreshStep1Pills();

@@ -741,55 +741,6 @@ button, input, select, textarea {
   cursor: pointer;
 }
 
-/* Demo Credentials Helper Pill */
-.demo-credentials-box {
-  background: var(--primary-50);
-  border: 1px dashed var(--primary-300);
-  border-radius: var(--radius-lg);
-  padding: 0.95rem 1.15rem;
-  margin-bottom: 1.65rem;
-  font-size: 0.85rem;
-  color: var(--primary-900);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
-}
-
-[data-theme="dark"] .demo-credentials-box {
-  background: rgba(37, 99, 235, 0.1);
-  border-color: rgba(59, 130, 246, 0.3);
-  color: var(--primary-200);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
-}
-
-.demo-credentials-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 0.4rem;
-  font-weight: 700;
-  letter-spacing: 0.01em;
-}
-
-.demo-fill-btn {
-  background: var(--bg-surface);
-  border: 1px solid var(--primary-300);
-  color: var(--primary-700);
-  font-size: 0.75rem;
-  font-weight: 700;
-  padding: 0.25rem 0.75rem;
-  border-radius: var(--radius-full);
-  cursor: pointer;
-  transition: all var(--transition-fast);
-  box-shadow: var(--shadow-sm);
-}
-
-.demo-fill-btn:hover {
-  background: var(--primary-600);
-  color: #ffffff;
-  border-color: var(--primary-600);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 10px rgba(37, 99, 235, 0.25);
-}
-
 /* Buttons */
 .btn {
   display: inline-flex;

@@ -55,15 +55,6 @@
         <p>Access your marksheet and semester results</p>
       </div>
 
-      <!-- Demo Student Credentials Helper -->
-      <div class="demo-credentials-box" id="demoStudentHelper">
-        <div class="demo-credentials-header">
-          <span>Demo Student (Praveen)</span>
-          <button type="button" class="demo-fill-btn" id="btnPrefillStudentDemo">Auto Fill</button>
-        </div>
-        <div>Register No: <strong>CKCSE001</strong> &bull; DOB: <strong>08/08/2008</strong></div>
-      </div>
-
       <!-- Error Alert Box -->
       <div id="studentLoginErrorAlert" style="display: none; background: var(--danger-50); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: var(--radius-md); padding: 0.75rem 1rem; margin-bottom: 1.25rem; color: var(--danger-700); font-size: 0.85rem; font-weight: 500;">
         <div style="display: flex; align-items: center; gap: 0.5rem;">
@@ -150,20 +141,11 @@
       const form = document.getElementById('studentLoginForm');
       const regInput = document.getElementById('studentRegNo');
       const dobInput = document.getElementById('studentDob');
-      const prefillBtn = document.getElementById('btnPrefillStudentDemo');
       const submitBtn = document.getElementById('btnSubmitStudentLogin');
       const btnText = document.getElementById('studentLoginBtnText');
       const btnSpinner = document.getElementById('studentLoginBtnSpinner');
       const errorAlert = document.getElementById('studentLoginErrorAlert');
       const errorMsg = document.getElementById('studentErrorMessage');
-
-      // Prefill Demo
-      prefillBtn.addEventListener('click', () => {
-        regInput.value = 'CKCSE001';
-        dobInput.value = '08/08/2008';
-        errorAlert.style.display = 'none';
-        showToast('Demo student credentials populated', 'info');
-      });
 
       // Normalize date string for matching
       function normalizeDob(str) {

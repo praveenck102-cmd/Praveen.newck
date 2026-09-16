@@ -240,6 +240,23 @@ const INITIAL_DATA = {
   semesters: ["I", "II", "III", "IV", "V", "VI", "VII", "VIII"],
   curriculum: {
     "CSE": {
+      "I": [
+        { code: "EN25C01", name: "English Essentials - I", maxInternal: 25, maxExternal: 75 },
+        { code: "MA25C01", name: "Applied Calculus", maxInternal: 25, maxExternal: 75 },
+        { code: "PH25C01", name: "Applied Physics - I", maxInternal: 25, maxExternal: 75 },
+        { code: "CY25C01", name: "Applied Chemistry - I", maxInternal: 25, maxExternal: 75 },
+        { code: "CS25C01", name: "Computer Programming: C", maxInternal: 25, maxExternal: 75 },
+        { code: "CS25C03", name: "Essentials of Computing", maxInternal: 25, maxExternal: 75 },
+        { code: "UC25H01", name: "Heritage of Tamils", maxInternal: 25, maxExternal: 75 }
+      ],
+      "II": [
+        { code: "MA25C02", name: "Linear Algebra", maxInternal: 25, maxExternal: 75 },
+        { code: "PH25C03", name: "Applied Physics (CS/IE) - II", maxInternal: 25, maxExternal: 75 },
+        { code: "EE25C01", name: "Basic Electrical and Electronics Engineering", maxInternal: 25, maxExternal: 75 },
+        { code: "CS25C06", name: "Digital Principles and Computer Organization", maxInternal: 25, maxExternal: 75 },
+        { code: "CS25C07", name: "Object Oriented Programming", maxInternal: 25, maxExternal: 75 },
+        { code: "UC25H02", name: "Tamils and Technology", maxInternal: 25, maxExternal: 75 }
+      ],
       "III": [
         { code: "CS2501", name: "Data Structures", maxInternal: 25, maxExternal: 75 },
         { code: "CS2502", name: "Java Programming", maxInternal: 25, maxExternal: 75 },
@@ -305,6 +322,22 @@ const INITIAL_DATA = {
 
 // Initial Master Subjects Seed (Faculty can edit, delete, add, and customize all subjects & codes)
 const DEFAULT_INITIAL_SUBJECTS = [
+  // Semester I & II Curriculum Subjects
+  { code: "UC25H01", name: "Heritage of Tamils", department: "CSE", semester: "I", maxInternal: 25, maxExternal: 75, credits: 1 },
+  { code: "CS25C03", name: "Essentials of Computing", department: "CSE", semester: "I", maxInternal: 25, maxExternal: 75, credits: 3 },
+  { code: "PH25C01", name: "Applied Physics - I", department: "CSE", semester: "I", maxInternal: 25, maxExternal: 75, credits: 3 },
+  { code: "CY25C01", name: "Applied Chemistry - I", department: "CSE", semester: "I", maxInternal: 25, maxExternal: 75, credits: 3 },
+  { code: "EN25C01", name: "English Essentials - I", department: "CSE", semester: "I", maxInternal: 25, maxExternal: 75, credits: 3 },
+  { code: "CS25C01", name: "Computer Programming: C", department: "CSE", semester: "I", maxInternal: 25, maxExternal: 75, credits: 3 },
+  { code: "MA25C01", name: "Applied Calculus", department: "CSE", semester: "I", maxInternal: 25, maxExternal: 75, credits: 4 },
+
+  { code: "MA25C02", name: "Linear Algebra", department: "CSE", semester: "II", maxInternal: 25, maxExternal: 75, credits: 4 },
+  { code: "CS25C06", name: "Digital Principles and Computer Organization", department: "CSE", semester: "II", maxInternal: 25, maxExternal: 75, credits: 4 },
+  { code: "UC25H02", name: "Tamils and Technology", department: "CSE", semester: "II", maxInternal: 25, maxExternal: 75, credits: 1 },
+  { code: "EE25C01", name: "Basic Electrical and Electronics Engineering", department: "CSE", semester: "II", maxInternal: 25, maxExternal: 75, credits: 3 },
+  { code: "PH25C03", name: "Applied Physics (CS/IE) - II", department: "CSE", semester: "II", maxInternal: 25, maxExternal: 75, credits: 3 },
+  { code: "CS25C07", name: "Object Oriented Programming", department: "CSE", semester: "II", maxInternal: 25, maxExternal: 75, credits: 3 },
+
   { code: "CS2501", name: "Data Structures", department: "CSE", semester: "III", maxInternal: 25, maxExternal: 75, credits: 4 },
   { code: "CS2502", name: "Java Programming", department: "CSE", semester: "III", maxInternal: 25, maxExternal: 75, credits: 4 },
   { code: "MA2501", name: "Mathematics III", department: "CSE", semester: "III", maxInternal: 25, maxExternal: 75, credits: 4 },
@@ -358,14 +391,36 @@ const STORAGE_KEYS = {
 };
 
 /**
- * Initialize storage with default data if not present
+ * Initialize storage with default data if not present, and auto-sync newly introduced master subjects
  */
 function initDataStore() {
   if (!localStorage.getItem(STORAGE_KEYS.STUDENTS)) {
     localStorage.setItem(STORAGE_KEYS.STUDENTS, JSON.stringify(INITIAL_DATA.students));
   }
-  if (!localStorage.getItem(STORAGE_KEYS.SUBJECTS)) {
+  
+  const existingSubRaw = localStorage.getItem(STORAGE_KEYS.SUBJECTS);
+  if (!existingSubRaw) {
     localStorage.setItem(STORAGE_KEYS.SUBJECTS, JSON.stringify(DEFAULT_INITIAL_SUBJECTS));
+  } else {
+    try {
+      let currentSubjects = JSON.parse(existingSubRaw);
+      if (Array.isArray(currentSubjects)) {
+        let updated = false;
+        DEFAULT_INITIAL_SUBJECTS.forEach(defSub => {
+          const found = currentSubjects.find(s => s.code.toUpperCase().trim() === defSub.code.toUpperCase().trim());
+          if (!found) {
+            currentSubjects.push(defSub);
+            updated = true;
+          }
+        });
+        if (updated) {
+          localStorage.setItem(STORAGE_KEYS.SUBJECTS, JSON.stringify(currentSubjects));
+        }
+      }
+    } catch (e) {
+      console.warn("Could not sync subjects to localStorage, resetting to default:", e);
+      localStorage.setItem(STORAGE_KEYS.SUBJECTS, JSON.stringify(DEFAULT_INITIAL_SUBJECTS));
+    }
   }
 }
 
